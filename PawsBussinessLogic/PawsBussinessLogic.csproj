@@ -41,8 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BussinessLogicObject\AdoptionAdopterBlo.cs" />
+    <Compile Include="BussinessLogicObject\AdoptionBlo.cs" />
+    <Compile Include="BussinessLogicObject\BloFactory.cs" />
+    <Compile Include="BussinessLogicObject\DistrictBlo.cs" />
+    <Compile Include="BussinessLogicObject\FoundPetBlo.cs" />
     <Compile Include="BussinessLogicObject\IEntityBlo.cs" />
+    <Compile Include="BussinessLogicObject\LostPetBlo.cs" />
+    <Compile Include="BussinessLogicObject\OwnerBlo.cs" />
     <Compile Include="BussinessLogicObject\PetBlo.cs" />
+    <Compile Include="BussinessLogicObject\RaceBlo.cs" />
+    <Compile Include="BussinessLogicObject\SpecieBlo.cs" />
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

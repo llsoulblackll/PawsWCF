@@ -1,71 +1,292 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>TestHTML</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+
+	<style>
+		.padded {
+			padding: 30px;
+		}
+
+		li {
+			cursor: pointer;
+		}
+
+		.insert-form {
+			display: none;
+		}
+
+		.shown {
+			display: block;
+		}
+	</style>
+
 </head>
+
 <body>
-	<div>
-		
-		<form id="uploadForm" method="POST">
-			<label>Upload File</label>
-			<input id="inFile" type="file">
-			<br>
-			<input type="submit">
-		</form>
+	<div class="container-fluid">
+
+		<ul class="nav nav-tabs">
+			<li id="ownersTab" role="presentation">
+				<a>Dueños</a>
+			</li>
+			<li id="petsTab" role="presentation">
+				<a>Mascotas</a>
+			</li>
+			<li id="districtsTab" role="presentation">
+				<a>Distritos</a>
+			</li>
+			<li id="speciesTab" role="presentation">
+				<a>Species</a>
+			</li>
+			<!--<li id="racesTab" role="presentation">
+				<a>Razas</a>
+			</li>-->
+			<li id="adoptionsTab" role="presentation">
+				<a>Adopciones</a>
+			</li>
+		</ul>
+
+		<div>
+			<div class="col-sm-6">
+				<form id="ownerForm" method="POST" class="padded insert-form shown form-horizontal">
+					<div class="form-group">
+						<label for="inputUsuario" class="col-sm-2 control-label">Usuario</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputUsuario" placeholder="Usuario">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputContraseña" class="col-sm-2 control-label">Contraseña</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="inputContraseña" placeholder="Contraseña">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputNombre" class="col-sm-2 control-label">Nombre</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputNombre" placeholder="Nombre">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputApellido" class="col-sm-2 control-label">Apellido</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputApellido" placeholder="Apellido">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputFec" class="col-sm-2 control-label">Fecha de nacimiento</label>
+						<div class="col-sm-10">
+							<input type="date" class="form-control" id="inputFec" placeholder="Fecha">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputDNI" class="col-sm-2 control-label">DNI</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="inputDNI" maxlength="8" placeholder="DNI">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail" class="col-sm-2 control-label">E-Mail</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" id="inputEmail" placeholder="E-Mail">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputDir" class="col-sm-2 control-label">Dirección</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputDir" placeholder="Dirección">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputTel" class="col-sm-2 control-label">Teléfono</label>
+						<div class="col-sm-10">
+							<input type="tel" class="form-control" id="inputTel" placeholder="Teléfono">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputOPic" class="col-sm-2 control-label">Foto de Perfil</label>
+						<div class="col-sm-10">
+							<input type="file" id="inputOPic">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputDis" class="col-sm-2 control-label">Distrito</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputDis">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Agregar</button>
+						</div>
+					</div>
+				</form>
+
+				<form id="petForm" method="POST" class="padded insert-form form-horizontal">
+					<div class="form-group">
+						<label for="inputNombre" class="col-sm-2 control-label">Nombre</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputNombre" placeholder="Nombre">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEdad" class="col-sm-2 control-label">Edad</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputEdad" placeholder="Edad">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPetDesc" class="col-sm-2 control-label">Descripcion</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="inputPetDesc" placeholder="Descripcion"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPetPic" class="col-sm-2 control-label">Foto</label>
+						<div class="col-sm-10">
+							<input type="file" id="inputPetPic">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEspecie" class="col-sm-2 control-label">Especie</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputEspecie">
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputRaza" class="col-sm-2 control-label">Raza</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputRaza" disabled>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputDueño" class="col-sm-2 control-label">Dueño</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputDueño">
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Agregar</button>
+						</div>
+					</div>
+				</form>
+
+				<form id="adoptionForm" method="POST" class="padded insert-form form-horizontal">
+					<div class="form-group">
+						<label for="inputAdopDueño" class="col-sm-2 control-label">Dueño</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputAdopDueño">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputAdopDesc" class="col-sm-2 control-label">Descripción</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="inputAdopDesc" placeholder="Descripcion"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputAdopEdad" class="col-sm-2 control-label">Edad</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputAdopEdad" placeholder="Edad">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputCant" class="col-sm-2 control-label">Cantidad</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="inputCant" placeholder="Cantidad">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEspe" class="col-sm-2 control-label">Especie</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="inputEspe">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Agregar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="tableContainer" class="col-sm-6">
+			</div>
+		</div>
 		<!--FOR MARGIN AUTO TO WORK THE OBJECT MUST BE BLOCK DISPLAYED-->
 		<!--<img style="max-width: 100px; margin: auto; display: block" alt="Not found" src="C:\Users\AdrianValdez\Pictures\Screenshots\Captura de pantalla (1).png">-->
 	</div>
+
 	<script type="text/javascript">
-		const HTTP_METHOD = {
+		const HTTP_METHOD = Object.freeze({
 			GET: 'GET',
 			POST: 'POST',
 			PUT: 'PUT',
 			DELETE: 'DELETE'
-		};
-		
+		});
+
 		const HTTP_ERROR_PREFIX = '4';
 		const HTTP_OK_PREFIX = '2';
-		
-		const URL = 'http://localhost:60602/';
-		const ENDPOINT = 'PetService.svc/';
-		
-		function makeRequest(method, url, callback, responseType = undefined, data = undefined){
-			
+
+		const URL = 'http://localhost:60602/Service/';
+		const PET_ENDPOINT = 'PetService.svc/';
+		const OWNER_ENDPOINT = 'OwnerService.svc/';
+		const DISTRICT_ENDPOINT = 'DistrictService.svc/';
+		const SPECIE_ENDPOINT = 'SpecieService.svc/';
+		const RACE_ENDPOINT = 'RaceService.svc/';
+		const ADOPTION_ENDPOINT = 'AdoptionService.svc/';
+		const ADOPTION_ADOPTER = 'AdoptionAdopterService.svc/';
+
+		function makeRequest(method, url, callback, responseType = undefined, data = undefined) {
+
 			const xhr = new XMLHttpRequest();
 			xhr.open(method, url);
-			
+
 			xhr.setRequestHeader('Content-Type', 'application/json');
-			
-			if(responseType)
+
+			if (responseType)
 				xhr.responseType = responseType;
-				
+
 			/*xhr.onload = function(){
 				callback(xhr.response);
 			};*/
-			
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState === xhr.DONE){
-					if(xhr.status.toString().substring(0, 1) === HTTP_OK_PREFIX){
+
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === xhr.DONE) {
+					if (xhr.status.toString().substring(0, 1) === HTTP_OK_PREFIX) {
 						callback(xhr.response);
-					} else if(xhr.status.toString().substring(0, 1) === HTTP_ERROR_PREFIX) {
+					} else if (xhr.status.toString().substring(0, 1) === HTTP_ERROR_PREFIX) {
 						console.log(`${xhr.status} ${xhr.statusText}`);
 						console.log(xhr.response);
 					}
 				}
 			}
-			
-			xhr.onerror = function(){
+
+			xhr.onerror = function () {
 				console.log(xhr.response);
 			};
-			
-			try{
-				if(data){
-					if(typeof data === 'string')
+
+			try {
+				if (data) {
+					if (typeof data === 'string')
 						xhr.send(data);
-					else if(typeof data === 'object'){
+					else if (typeof data === 'object') {
 						let json = JSON.stringify(data);
 						console.log(json);
 						xhr.send(json);
@@ -73,34 +294,519 @@
 				}
 				else
 					xhr.send();
-			} catch(e){
+			} catch (e) {
 				console.log(e);
 				console.log(xhr.response);
 			}
 		}
-		
-		window.onload = function(){
-			makeRequest(HTTP_METHOD.GET, URL + ENDPOINT + 'FindAllPets', function(res){
+
+		window.onload = function () {
+			/*makeRequest(HTTP_METHOD.GET, URL + ENDPOINT + 'FindAllPets/3', function(res){
 				console.log(res);
-			}, 'json');
-			
-			document.querySelector('#uploadForm').onsubmit = function(){
+			}, 'json');*/
+
+			//var lis = document.getElementsByTagName('li');
+
+			/*Array.forEach(lis, li => {
+				li.onclick = () => {
+					Array.forEach(lis, l => {
+						if(l.classList.contains('active')){
+							l.classList.remove('active');
+						}
+					});
+					li.classList.add('active');	
+				};
+			});*/
+
+			var ownersTab = document.getElementById('ownersTab');
+			var petsTab = document.getElementById('petsTab');
+			var districtsTab = document.getElementById('districtsTab');
+			var speciesTab = document.getElementById('speciesTab');
+			//var racesTab = document.getElementById('racesTab');
+			var adoptionsTab = document.getElementById('adoptionsTab');
+
+			var lis = [ownersTab, petsTab, districtsTab, speciesTab, adoptionsTab];
+
+			var ownerForm = document.getElementById('ownerForm');
+			var petForm = document.getElementById('petForm');
+			var adoptionForm = document.getElementById('adoptionForm');
+
+			var forms = [ownerForm, petForm, adoptionForm];
+
+			var tableContainer = document.getElementById('tableContainer');
+
+			ownersTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+					ownerForm.classList.add('shown');
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${DISTRICT_ENDPOINT}FindAll`, function (res) {
+						let select = document.getElementById('inputDis');
+
+						res.Response.forEach(d => {
+							console.log(d);
+							let opt = document.createElement('option');
+							opt.text = d.Name;
+							opt.value = d.Id;
+							select.add(opt);
+						});
+					}, 'json');
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${OWNER_ENDPOINT}FindAll`, function (response) {
+
+						var tableString = `<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>Usuario</th>
+												<th>Nombre</th>
+												<th>Apellido</th>
+												<th>Perfil</th>
+												<th>Fecha de Nacimiento</th>
+												<th>DNI</th>
+												<th>E-Mail</th>`;
+						tableString += `</tr>
+										</thead>
+										<tbody>`;
+
+						response.Response.forEach(o => {
+							tableString += `<tr>
+											  <td>${o.Username}</td>
+											  <td>${o.Name}</td>
+											  <td>${o.LastName}</td>
+											  <td><img class='img-responsive' src='${o.ProfilePicture}'></td>
+											  <td>${new Date(parseInt(o.BirthDate.substring(6))).toLocaleDateString()}</td>
+											  <td>${o.DNI}</td>
+											  <td>${o.EMail}</td>
+											</tr>`
+						});
+
+						tableString += `</tbody>
+									</table>`;
+
+
+						tableContainer.innerHTML = tableString;
+
+					}, 'json');
+
+				}
+			};
+
+			petsTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					console.log(this);
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+					petForm.classList.add('shown');
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${OWNER_ENDPOINT}FindAll`, function (res) {
+						let inputOwner = document.getElementById('inputDueño');
+
+						inputOwner.innerHTML = '';
+
+						res.Response.forEach(o => {
+							let opt = document.createElement('option');
+							opt.text = o.Name + o.LastName;
+							opt.value = o.Id;
+
+							inputOwner.add(opt);
+						});
+					}, 'json');
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${SPECIE_ENDPOINT}FindAll`, function (res) {
+
+						let inputSpecie = document.getElementById('inputEspecie');
+						let inputRace = document.getElementById('inputRaza');
+
+						inputSpecie.innerHTML = '';
+
+						res.Response.forEach(s => {
+							let opt = document.createElement('option');
+							opt.text = s.Name;
+							opt.value = s.Id;
+							inputSpecie.add(opt);
+						});
+
+						inputSpecie.onchange = function () {
+							makeRequest(HTTP_METHOD.GET, `${URL}${RACE_ENDPOINT}FindAll/${inputSpecie.value}`, function (res) {
+
+								inputRace.removeAttribute('disabled');
+
+								inputRace.innerHTML = '';
+
+								res.Response.forEach(r => {
+									let opt = document.createElement('option');
+									opt.text = r.Name;
+									opt.value = r.Id;
+
+									inputRace.add(opt);
+								});
+							}, 'json');
+						};
+
+						inputSpecie.onchange();
+
+					}, 'json')
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${PET_ENDPOINT}FindAll`, function (res) {
+						let tableString = `<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Nombre</th>
+													<th>Edad</th>
+													<th>Foto</th>
+												</tr>
+											</thead>
+											<tbody>`
+						res.Response.forEach(p => tableString += `<tr>
+																	<td class='col-md-5'>${p.Name}</td>
+																	<td class='col-md-5'>${p.Age}</td>
+																	<td class='col-md-2'><img class='img-responsive' src='${p.Picture}'></td>
+																  </tr>`);
+						tableString += `</tbody>
+									</table>`;
+
+						tableContainer.innerHTML = tableString;
+
+					}, 'json');
+				}
+			};
+
+			districtsTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					console.log(this);
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${DISTRICT_ENDPOINT}FindAll`, function (res) {
+						let tableString = `<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Name</th>
+												</tr>
+											</thead>
+											<tbody>`
+						res.Response.forEach(d => tableString += `<tr>
+																	<td>${d.Name}</td>
+																  </tr>`);
+						tableString += `</tbody>
+									</table>`;
+
+						tableContainer.innerHTML = tableString;
+					}, 'json');
+				}
+			};
+
+			speciesTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					console.log(this);
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${SPECIE_ENDPOINT}FindAll`, function (res) {
+						let tableString = `<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Name</th>
+												</tr>
+											</thead>
+											<tbody>`
+						res.Response.forEach(s => tableString += `<tr>
+																	<td>${s.Name}</td>
+																  </tr>`);
+						tableString += `</tbody>
+									</table>`;
+
+						tableContainer.innerHTML = tableString;
+					}, 'json');
+
+				}
+			};
+
+			/*racesTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					console.log(this);
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${RACE_ENDPOINT}FindAll`, function (res) {
+						let tableString = `<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Especie</th>
+													<th>Name</th>
+												</tr>
+											</thead>
+											<tbody>`
+						res.Response.forEach(d => {
+
+							let specieName = '';
+
+							switch (d.SpecieId) {
+								case 1:
+									specieName = 'Perro';
+									break;
+								case 2:
+									specieName = 'Gato';
+									break;
+								case 3:
+									specieName = 'Conejo';
+									break;
+								case 4:
+									specieName = 'Otros';
+									break;
+							}
+
+							tableString += `<tr>
+											  <td>${specieName}</td>
+											  <td>${d.Name}</td>
+											</tr>`
+						});
+
+						tableString += `</tbody>
+									</table>`;
+
+						tableContainer.innerHTML = tableString;
+					}, 'json');
+
+				}
+			};*/
+
+			adoptionsTab.onclick = function () {
+				if (!this.classList.contains('active')) {
+					lis.forEach(l => l.classList.remove('active'));
+					this.classList.add('active');
+
+					forms.forEach(f => f.classList.remove('shown'));
+					adoptionForm.classList.add('shown');
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${ADOPTION_ENDPOINT}FindAll`, function (res) {
+						let tableString = `<table class='table table-hover'>
+											<thead>
+												<tr>
+													<th>Descripcion</th>
+													<th>Edad</th>
+													<th>Cantidad</th>
+													<th>Especie</th>
+												</tr>
+											</thead>
+											<tbody>`
+						res.Response.forEach(a => {
+
+							let specie = '';
+
+							switch (a.SpecieId) {
+								case 1:
+									specie = 'Perro';
+									break;
+								case 2:
+									specie = 'Gato';
+									break;
+								case 3:
+									specie = 'Conejo';
+									break;
+								case 4:
+									specie = 'Otros';
+									break;
+							}
+
+							tableString += `<tr>
+								<td>${a.Description}</td>
+								<td>${a.Age}</td>
+								<td>${a.TotalQuantity}</td>
+								<td>${specie}</td>
+							  </tr>`
+						});
+
+						tableString += `</tbody>
+									</table>`;
+
+						tableContainer.innerHTML = tableString;
+					}, 'json');
+
+					let owners = document.getElementById('inputAdopDueño');
+					let species = document.getElementById('inputEspe');
+					
+					owners.innerHTML = '';
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${OWNER_ENDPOINT}FindAll`, function(res){
+						res.Response.forEach(o => {
+							let opt = document.createElement('option');
+							opt.text = o.Name + ' ' + o.LastName;
+							opt.value = o.Id;
+
+							owners.add(opt);
+						});
+					}, 'json');
+
+					species.innerHTML = '';
+
+					makeRequest(HTTP_METHOD.GET, `${URL}${SPECIE_ENDPOINT}FindAll`, function(res){
+						res.Response.forEach(s => {
+							let opt = document.createElement('option');
+							opt.text = s.Name;
+							opt.value = s.Id;
+
+							species.add(opt);
+						});
+
+					}, 'json');
+
+				}
+			};
+
+			ownerForm.onsubmit = function () {
+				/*Usuario
+				Contraseña
+				Nombre
+				Apellido
+				Fecha
+				DNI
+				E-Mail
+				Dirección
+				Teléfono
+				Foto
+				Distrito*/
+
+				let file = ownerForm.elements.item(9).files[0];
+				let fileReader = new FileReader();
+				fileReader.onload = function () {
+					let base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+					let objOwner = {
+						Username: ownerForm.elements.item(0).value,
+						Password: ownerForm.elements.item(1).value,
+						Name: ownerForm.elements.item(2).value,
+						LastName: ownerForm.elements.item(3).value,
+						BirthDate: `\/Date(${new Date(ownerForm.elements.item(4).value).getTime()})\/`,
+						DNI: ownerForm.elements.item(5).value,
+						EMail: ownerForm.elements.item(6).value,
+						Address: ownerForm.elements.item(7).value,
+						PhoneNumber: ownerForm.elements.item(8).value,
+						ImageBase64: base64img || '',
+						ImageExtension: file.name.split('.')[1],
+						DistrictId: parseInt(ownerForm.elements.item(10).value)
+					};
+					makeRequest(HTTP_METHOD.POST, `${URL}${OWNER_ENDPOINT}New`, function (res) {
+						console.log(res);
+						ownersTab.classList.remove('active');
+						ownersTab.click();
+
+					}, 'json', objOwner);
+				};
+
+				fileReader.readAsDataURL(file);
+
+				return false;
+			};
+
+			petForm.onsubmit = function () {
+
+				/*Nombre
+				Edad
+				Descripcion
+				Foto
+				Especie
+				Raza
+				Dueño*/
+
+				let file = petForm.elements.item(3).files[0];
+				let fileReader = new FileReader();
+				fileReader.onload = function () {
+					let base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+					let objPet = {
+						Name: petForm.elements.item(0).value,
+						Age: petForm.elements.item(1).value,
+						Description: petForm.elements.item(2).value,
+						ImageBase64: base64img || '',
+						ImageExtension: file.name.split('.')[1],
+						SpecieId: parseInt(petForm.elements.item(4).value),
+						RaceId: parseInt(petForm.elements.item(5).value),
+						OwnerId: parseInt(petForm.elements.item(6).value)
+					};
+					makeRequest(HTTP_METHOD.POST, `${URL}${PET_ENDPOINT}New`, function (res) {
+						console.log(res);
+						petsTab.classList.remove('active');
+						petsTab.click();
+
+					}, 'json', objPet);
+				};
+
+				fileReader.readAsDataURL(file);
+
+				return false;
+			};
+
+			adoptionForm.onsubmit = function () {
+
+				/*Dueño
+				Descripción
+				Edad
+				Cantidad
+				Especie*/
+
+				let objAdop = {
+					OwnerId: parseInt(adoptionForm.elements.item(0).value),
+					State: true,
+					Description: adoptionForm.elements.item(1).value,
+					Age: adoptionForm.elements.item(2).value,
+					TotalQuantity: adoptionForm.elements.item(3).value,
+					SpecieId: parseInt(adoptionForm.elements.item(4).value),
+					PublishDate: `\/Date(${Date.now()})\/`,
+					DistrictId: 1,
+					RaceId: 1
+				};
+
+				makeRequest(HTTP_METHOD.POST, `${URL}${ADOPTION_ENDPOINT}New`, function (res) {
+					console.log(res);
+					adoptionsTab.classList.remove('active');
+					adoptionsTab.click();
+
+				}, 'json', objAdop);
+
+				return false;
+			};
+
+			//START
+			ownersTab.click();
+
+			/*document.querySelector('#uploadForm').onsubmit = function () {
 				let file = this.querySelector('input[type="file"]').files[0];
 				let fileReader = new FileReader();
 				fileReader.readAsDataURL(file);
-				fileReader.onload = function(){
+				fileReader.onload = function () {
 					let base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
-					let obj = { ImageBase64: base64img, ImageExtension: file.name.split('.')[1], Id: 0, Name: 'Doggo', Age: 3, Description: 'Some doggo', ImagePath: '', LostLat: 32.2, LostLon: 332.1, Race: 'Siberian', Size: 'Enormous' };
+					let obj = {
+						ImageBase64: base64img,
+						ImageExtension: file.name.split('.')[1],
+						Id: 0,
+						Name: 'Joss',
+						Age: '1 año',
+						Description: 'She is not that',
+						Picture: '',
+						RaceId: 1,
+						OwnerId: 3
+					};
 					console.log(fileReader.result);
 					console.log(base64img);
 					console.log(obj.ImageExtension);
-					makeRequest(HTTP_METHOD.POST, URL + ENDPOINT + 'NewPet', function(res){
+					makeRequest(HTTP_METHOD.POST, URL + ENDPOINT + 'NewPet', function (res) {
 						console.log(res);
 					}, undefined, obj);
 				};
 				return false;
-			};
+			};*/
 		};
 	</script>
 </body>
+
 </html>

@@ -3,6 +3,9 @@ using System.Data.SqlClient;
 
 namespace PawsDataAccess.Database.DatabaseImpl
 {
+    /// <summary>
+    /// Do not instatiate directly, use DatabaseFactory instead
+    /// </summary>
     class SqlDatabase : IDatabase
     {
         /*public IDbConnection GetOpenConnection(string connString)

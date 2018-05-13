@@ -7,6 +7,7 @@ using PawsBussinessLogic.BussinessLogicObject;
 using PawsEntity;
 using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
+using static PawsWCF.WCFConstant.Constant;
 
 namespace PawsWCF.Service
 {
@@ -16,10 +17,10 @@ namespace PawsWCF.Service
 
         public PetService()
         {
-            this.petBlo = new PetBlo();
+            this.petBlo = BloFactory.GetPetBlo();
         }
 
-        public WCFResponse<object> NewPet(PetContract pet)
+        public WCFResponse<object> New(PetContract pet)
         {
             var petEntity = new Pet
             {
@@ -28,29 +29,34 @@ namespace PawsWCF.Service
                 Age = pet.Age,
                 Description = pet.Description,
                 Picture = pet.Picture,
+                SpecieId = pet.SpecieId,
                 RaceId = pet.RaceId,
                 OwnerId = pet.OwnerId
 
             };
 
             int genId = petBlo.Insert(petEntity);
-            string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-            string savePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Uploads\\{partialPath}"));
-            File.WriteAllBytes(savePath, Convert.FromBase64String(pet.ImageBase64));
-
             petEntity.Id = genId;
-            petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/Uploads/{partialPath}";
+            string savePath = "";
 
-            bool result;
-            string message;
-            WCFResponseCode responseCode;
+            if (!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+            {
+                string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
+                savePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}"));
+                File.WriteAllBytes(savePath, Convert.FromBase64String(pet.ImageBase64));
+                petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+            }
+
+            bool result = true;//BY DEFAULT SINCE THE INSERTION WAS 'SUCCESSFUL'
+
             if (File.Exists(savePath))
                 result = petBlo.Update(petEntity);
-            else
+            
+            /*else
             {
                 petBlo.Delete(pet.Id);
                 result = false;
-            }
+            }*/
 
             if (result)
             {
@@ -58,7 +64,7 @@ namespace PawsWCF.Service
                 {
                     ResponseCode = WCFResponseCode.Success,
                     ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
-                    Response = result.ToString()
+                    Response = result
                 };
             }
             else
@@ -67,12 +73,12 @@ namespace PawsWCF.Service
                 {
                     ResponseCode = WCFResponseCode.Error,
                     ResponseMessage = WCFResponseMessage.WCF_ERROR,
-                    Response = result.ToString()
+                    Response = result
                 };
             }
         }
 
-        public WCFResponse<object> UpdatePet(PetContract pet)
+        public WCFResponse<object> Update(PetContract pet)
         {
             var petEntity = new Pet
             {
@@ -81,11 +87,29 @@ namespace PawsWCF.Service
                 Age = pet.Age,
                 Description = pet.Description,
                 Picture = pet.Picture,
+                SpecieId = pet.SpecieId,
                 RaceId = pet.RaceId,
                 OwnerId = pet.OwnerId
             };
+            
+            if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+            {
+                string fileName = $"{pet.Id}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
+                string fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\${UPLOAD_FOLDER}\\{fileName}";
+                string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
+                File.WriteAllBytes(fullPath, Convert.FromBase64String(pet.ImageBase64));
+
+                //DO IT AFTER THE WRITE TO ENSURE THE NEW IMAGE HAS BEEN SAVED
+                if (!string.IsNullOrWhiteSpace(pet.Picture))
+                {
+                    File.Delete(pet.Picture);
+                }
+
+                petEntity.Picture = serverPath;
+            }
 
             var result = petBlo.Update(petEntity);
+
             if (result)
             {
                 return new WCFResponse<object>
@@ -106,9 +130,15 @@ namespace PawsWCF.Service
             }
         }
 
-        public WCFResponse<object> DeletePet(string id)
+        public WCFResponse<object> Delete(string id)
         {
-            var response = petBlo.Delete(int.Parse(id));
+            int petId = int.Parse(id);
+            Pet pet = petBlo.Find(petId);
+
+            if (File.Exists(pet.Picture))
+                File.Delete(pet.Picture);
+
+            var response = petBlo.Delete(petId);
             if (response)
             {
                 return new WCFResponse<object>
@@ -129,7 +159,7 @@ namespace PawsWCF.Service
             }
         }
 
-        public WCFResponse<PetContract> FindPet(string id)
+        public WCFResponse<PetContract> Find(string id)
         {
             var petEntity = petBlo.Find(int.Parse(id));
             //OMIT IMAGEBASE64 AND IMAGEEXTENSION SINCE WE ONLY NEED THOSE WHEN INSERTING
@@ -143,6 +173,7 @@ namespace PawsWCF.Service
                     Age = petEntity.Age,
                     Description = petEntity.Description,
                     Picture = petEntity.Picture,
+                    SpecieId = petEntity.SpecieId,
                     RaceId = petEntity.RaceId,
                     OwnerId = petEntity.OwnerId
                 };
@@ -165,9 +196,30 @@ namespace PawsWCF.Service
             }
         }
 
-        public WCFResponse<List<PetContract>> FindAllPets()
+        public WCFResponse<List<PetContract>> FindAll()
         {
-            var pets = petBlo.FindAll();
+            return new WCFResponse<List<PetContract>>
+            {
+                Response = petBlo.FindAll().Select(p => new PetContract
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Age = p.Age,
+                    Description = p.Description,
+                    Picture = p.Picture,
+                    SpecieId = p.SpecieId,
+                    RaceId = p.RaceId,
+                    OwnerId = p.OwnerId
+                }).ToList(),
+                ResponseCode = WCFResponseCode.Error,
+                ResponseMessage = WCFResponseMessage.WCF_ERROR
+            };
+        }
+
+        public WCFResponse<List<PetContract>> FindAll(string ownerId)
+        {
+            int id = int.Parse(ownerId);
+            var pets = petBlo.FindAll(id);
             if (pets != null) {
                 return new WCFResponse<List<PetContract>>
                 {
@@ -178,6 +230,7 @@ namespace PawsWCF.Service
                         Age = p.Age,
                         Description = p.Description,
                         Picture = p.Picture,
+                        SpecieId = p.SpecieId,
                         RaceId = p.RaceId,
                         OwnerId = p.OwnerId
                     }).ToList(),

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PawsBussinessLogic.BussinessLogicObject
 {
-    public interface IEntityBlo<T>
+    interface IEntityBlo<T>
     {
         int Insert(T toInsert);
         bool Update(T toUpdate);

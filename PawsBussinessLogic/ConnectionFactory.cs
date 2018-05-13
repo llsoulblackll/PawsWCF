@@ -7,7 +7,7 @@ namespace PawsBussinessLogic
 {
     static class ConnectionFactory
     {
-        public static IDbConnection GetOpenConnecion()
+        public static IDbConnection GetOpenConnection()
         {
             IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings[Constant.CONNECTION_STRING_KEY].ConnectionString);
             conn.Open();

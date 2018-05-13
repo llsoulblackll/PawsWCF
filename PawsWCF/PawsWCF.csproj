@@ -62,19 +62,62 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Service\AdoptionAdopterService.svc" />
+    <Content Include="Service\AdoptionService.svc" />
+    <Content Include="Service\DistrictService.svc" />
+    <Content Include="Service\FoundPetService.svc" />
+    <Content Include="Service\LostPetService.svc" />
+    <Content Include="Service\OwnerService.svc" />
     <Content Include="Service\PetService.svc" />
     <Content Include="Service1.svc" />
+    <Content Include="Service\RaceService.svc" />
+    <Content Include="Service\SpecieService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\AdoptionAdopterContract.cs" />
+    <Compile Include="Contract\AdoptionContract.cs" />
+    <Compile Include="Contract\DistrictContract.cs" />
+    <Compile Include="Contract\FoundPetContract.cs" />
+    <Compile Include="Contract\LostPetContract.cs" />
+    <Compile Include="Contract\OwnerContract.cs" />
     <Compile Include="Contract\PetContract.cs" />
+    <Compile Include="Contract\RaceContract.cs" />
+    <Compile Include="Contract\SpecieContract.cs" />
     <Compile Include="Contract\WCFResponse.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Service\AdoptionAdopterService.svc.cs">
+      <DependentUpon>AdoptionAdopterService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\AdoptionService.svc.cs">
+      <DependentUpon>AdoptionService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\DistrictService.svc.cs">
+      <DependentUpon>DistrictService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\FoundPetService.svc.cs">
+      <DependentUpon>FoundPetService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\IAdoptionAdopterService.cs" />
+    <Compile Include="Service\IAdoptionService.cs" />
+    <Compile Include="Service\IDistrictService.cs" />
+    <Compile Include="Service\IEntityService.cs" />
+    <Compile Include="Service\IFoundPetService.cs" />
+    <Compile Include="Service\ILostPetService.cs" />
+    <Compile Include="Service\IOwnerService.cs" />
     <Compile Include="Service\IPetService.cs" />
+    <Compile Include="Service\IRaceService.cs" />
+    <Compile Include="Service\ISpecieService.cs" />
+    <Compile Include="Service\LostPetService.svc.cs">
+      <DependentUpon>LostPetService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\OwnerService.svc.cs">
+      <DependentUpon>OwnerService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service\PetService.svc.cs">
       <DependentUpon>PetService.svc</DependentUpon>
     </Compile>
@@ -83,6 +126,13 @@
     </Compile>
     <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\RaceService.svc.cs">
+      <DependentUpon>RaceService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\SpecieService.svc.cs">
+      <DependentUpon>SpecieService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="WCFConstant\Constant.cs" />
     <Compile Include="WCFConstant\WCFResponseCode.cs" />
     <Compile Include="WCFConstant\WCFResponseMessage.cs" />
   </ItemGroup>

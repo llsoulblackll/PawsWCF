@@ -5,6 +5,7 @@ namespace PawsEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int SpecieId { get; set; }
         //public string Foto { get; set; }
     }
 }

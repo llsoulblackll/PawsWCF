@@ -7,7 +7,7 @@ namespace PawsEntity
         public int Id { get; set; }
         public bool State { get; set; }
         public string Description { get; set; }
-        public string Age { get; set; }
+        //public string Age { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public DateTime FoundDate { get; set; }
