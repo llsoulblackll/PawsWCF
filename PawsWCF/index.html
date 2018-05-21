@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <title>Paws RESTful Service</title>
+    <style>
+        body {
+            background-color: #e5e5cc;
+        }
+
+        li,
+        p {
+            font-size: 20px;
+        }
+
+        li {
+            font-weight: bold;
+        }
+
+        p {
+            font-weight: normal;
+        }
+
+        .main-title {
+            color: white;
+            background-color: #003366;
+        }
+
+        .padded-top-bot-20{
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .remove-padding{
+            margin: -15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="main-title remove-padding padded-top-bot-20">
+            <div class="container">
+                <h1>Patitas - Servicio REST</h1>
+                <p>Bienvenido, desde esta página puede navegar y explorar los diversos endpoints que expone el servicio, asi
+                    como un pequeña descripcion del mismo</p>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="Service/OwnerService.svc">Dueños</a>
+                    <br>
+                    <p>Endpoint para manejar Dueños los cuales son los usuarios, desde aqui se realiza el login, registro, etc</p>
+                </li>
+                <li>
+                    <a href="Service/PetService.svc">Mascotas</a>
+                    <br>
+                    <p>Endpoint para manejar Mascotas las cuales estan asociadas con los Dueños, se puden subir imagenes de
+                        estas asi como características específicas</p>
+                </li>
+                <li>
+                    <a href="Service/AdoptionService.svc">Adopciones</a>
+                    <br>
+                    <p>Endpoint para manejar publicar Adopciones, se puede especificar la especie del animal, asi como su raza</p>
+                </li>
+                <li>
+                    <a href="Service/DistrictService.svc">Distritos</a>
+                    <br>
+                    <p>Endpoint para mostrar los Distritos de Lima Metropolitana</p>
+                </li>
+                <li>
+                    <a href="Service/SpecieService.svc">Especies</a>
+                    <br>
+                    <p>Endpoint para mostrar las Especies de animales domésticos</p>
+                </li>
+                <li>
+                    <a href="Service/RaceService.svc">Razas</a>
+                    <br>
+                    <p>Endpoint para mostrar las Razas de las diversas especies que existen</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

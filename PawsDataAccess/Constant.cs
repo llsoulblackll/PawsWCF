@@ -30,6 +30,13 @@ namespace PawsDataAccess
             public const string USP_OWNER_LOGIN = "usp_Owner_Login";
         }
 
+        public static class Survey
+        {
+            public const string USP_SURVEY_INSERT = "usp_Survey_Insert";
+            public const string USP_SURVEY_UPDATE = "usp_Survey_Update";
+            public const string USP_SURVEY_FIND = "usp_Survey_Find";
+        }
+
         public static class Pet
         {
             public const string USP_PET_INSERT = "usp_Pet_Insert";
@@ -46,6 +53,13 @@ namespace PawsDataAccess
             public const string USP_ADOPTION_DELETE = "usp_Adoption_Delete";
             public const string USP_ADOPTION_FIND = "usp_Adoption_Find";
             public const string USP_ADOPTION_FINDALL = "usp_Adoption_FindAll";
+        }
+
+        public static class AdoptionPet
+        {
+            public const string USP_ADOPTION_PET_INSERT = "usp_Adoption_Pet_Insert";
+            public const string USP_ADOPTION_PET_DELETE = "usp_Adoption_Pet_Delete";
+            public const string USP_ADOPTION_PET_FINDALL = "usp_Adoption_Pet_FindAll";
         }
 
         public static class AdoptionAdopter

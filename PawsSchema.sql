@@ -79,6 +79,19 @@ CREATE TABLE Owner
 )
 GO
 
+CREATE TABLE Survey
+(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	HomeDescription VARCHAR(MAX),
+	AmountOfPeople INT,
+	OtherPets BIT,
+	OtherPetsDescription VARCHAR(MAX),
+	WorkType VARCHAR(300),
+	Availability VARCHAR(MAX),
+	OwnerId INT CONSTRAINT FK_Survey_Owner FOREIGN KEY REFERENCES Owner(Id) CONSTRAINT UN_Survey_Owner UNIQUE
+)
+GO
+
 CREATE TABLE Pet
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
@@ -107,7 +120,15 @@ CREATE TABLE Adoption
 	OwnerId INT CONSTRAINT FK_Adoption_Owner FOREIGN KEY REFERENCES Owner(Id),
 	SpecieId INT CONSTRAINT FK_Adoption_Specie FOREIGN KEY REFERENCES Specie(Id),
 	RaceId INT CONSTRAINT FK_Adoption_Race FOREIGN KEY REFERENCES Race(Id),
-	PetId INT CONSTRAINT FK_Adoption_Pet FOREIGN KEY REFERENCES Pet(Id) DEFAULT NULL--PROBABLY NO ONE WILL WANT TO PUT HIS/HER PET ON ADOPTION
+	--PetId INT CONSTRAINT FK_Adoption_Pet FOREIGN KEY REFERENCES Pet(Id) DEFAULT NULL--PROBABLY NO ONE WILL WANT TO PUT HIS/HER PET ON ADOPTION
+)
+GO
+
+CREATE TABLE Adoption_Pet
+(
+	AdoptionId INT,
+	PetId INT,
+	PRIMARY KEY (AdoptionId, PetId)
 )
 GO
 
@@ -316,6 +337,75 @@ FROM Owner
 WHERE Username = @user AND Password = @pass
 GO
 
+---SURVEY
+
+CREATE PROCEDURE usp_Survey_Insert
+@homeDesc VARCHAR(MAX),
+@people INT,
+@otherPets BIT,
+@otherPetsDesc VARCHAR(MAX),
+@workType VARCHAR(300),
+@avail VARCHAR(MAX),
+@ownerId INT,
+@id INT = 0 OUT
+AS
+BEGIN
+	INSERT INTO Survey(HomeDescription,
+					   AmountOfPeople,
+					   OtherPets,
+					   OtherPetsDescription,
+					   WorkType,
+					   Availability,
+					   OwnerId)
+				VALUES(@homeDesc,
+					   @people,
+					   @otherPets,
+					   @otherPetsDesc,
+					   @workType,
+					   @avail,
+					   @ownerId)
+	SET @id = SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE usp_Survey_Update
+@id INT,
+@homeDesc VARCHAR(MAX),
+@people INT,
+@otherPets BIT,
+@otherPetsDesc VARCHAR(MAX),
+@workType VARCHAR(300),
+@avail VARCHAR(MAX),
+@ownerId INT,
+@rowCount INT = 0 OUT
+AS
+BEGIN
+	UPDATE Survey SET HomeDescription = @homeDesc,
+					  AmountOfPeople = @people,
+					  OtherPets = @otherPets,
+					  OtherPetsDescription = @otherPetsDesc,
+					  WorkType = @workType,
+					  Availability = @avail
+	WHERE Id = @id
+	SET @rowCount = @@ROWCOUNT
+END
+GO
+
+CREATE PROCEDURE usp_Survey_Find
+@id INT
+AS
+SELECT Id,
+	   HomeDescription,
+	   AmountOfPeople,
+	   OtherPets,
+	   OtherPetsDescription,
+	   WorkType,
+	   Availability,
+	   OwnerId
+FROM Survey
+WHERE Id = @id
+GO
+
 ---PET
 
 EXEC SP_HELP Pet
@@ -382,7 +472,8 @@ CREATE PROCEDURE usp_Pet_Delete
 AS
 BEGIN TRY
 	BEGIN TRANSACTION
-		DELETE FROM Adoption WHERE PetId = @id
+		--DELETE FROM Adoption WHERE PetId = @id
+		DELETE FROM Adoption_Pet WHERE PetId = @id
 		DELETE FROM Lost_Pet WHERE PetId = @id
 		DELETE FROM Pet WHERE Id = @id
 		SET @rowCount = @@ROWCOUNT
@@ -455,7 +546,7 @@ CREATE PROCEDURE usp_Adoption_Insert
 @ownerId INT,
 @specieId INT,
 @raceId INT,
-@petId INT,
+--@petId INT,
 @id INT = 0 OUT
 AS
 BEGIN
@@ -470,8 +561,8 @@ BEGIN
 						  DistrictId,
 						  OwnerId,
 						  SpecieId,
-						  RaceId,
-						  PetId)
+						  RaceId)
+						  --PetId
 				VALUES (@state,
 						@desc,
 						@address,
@@ -483,8 +574,7 @@ BEGIN
 						@disId,
 						@ownerId,
 						@specieId,
-						@raceId,
-						@petId)
+						@raceId)
 	SET @id = SCOPE_IDENTITY()
 END
 GO
@@ -512,6 +602,7 @@ AS
 BEGIN TRY
 	BEGIN TRAN
 		DELETE FROM Adoption_Adopter WHERE AdoptionId = @id
+		DELETE FROM Adoption_Pet WHERE AdoptionId = @id
 		DELETE FROM Adoption WHERE Id = @id
 		SET @rowCount = @@ROWCOUNT
 	COMMIT TRAN
@@ -538,8 +629,8 @@ SELECT Id,
 	   DistrictId,
 	   OwnerId,
 	   SpecieId,
-	   RaceId,
-	   PetId
+	   RaceId
+	   --PetId
 FROM Adoption
 WHERE Id = @id
 GO
@@ -558,9 +649,43 @@ SELECT Id,
 	   DistrictId,
 	   OwnerId,
 	   SpecieId,
-	   RaceId,
-	   PetId
+	   RaceId
+	   --PetId
 FROM Adoption
+GO
+
+---ADOPTION_PET
+
+CREATE PROCEDURE usp_Adoption_Pet_Insert
+@adoptionId INT,
+@petId INT,
+@rowCount INT = 0 OUT
+AS
+BEGIN
+	INSERT INTO Adoption_Pet (AdoptionId, PetId)
+					  VALUES (@adoptionId, @petId)
+	SET @rowCount = @@ROWCOUNT
+END
+GO
+
+CREATE PROCEDURE usp_Adoption_Pet_Delete
+@adoptionId INT,
+@petId INT,
+@rowCount INT = 0 OUT
+AS
+BEGIN
+	DELETE FROM Adoption_Pet 
+	WHERE AdoptionId = @adoptionId AND PetId = @petId
+	SET @rowCount = @@ROWCOUNT
+END
+GO
+
+CREATE PROCEDURE usp_Adoption_Pet_FindAll
+@adoptionId INT
+AS
+SELECT AdoptionId, PetId
+FROM Adoption_Pet
+WHERE AdoptionId = @adoptionId
 GO
 
 ---ADOPTION_ADOPTER
@@ -742,7 +867,7 @@ GO
 EXEC SP_HELP Found_Pet
 GO
 
-ALTER PROCEDURE usp_Found_Pet_Insert
+CREATE PROCEDURE usp_Found_Pet_Insert
 @state BIT,
 @desc VARCHAR(MAX),
 @lon DOUBLE PRECISION,

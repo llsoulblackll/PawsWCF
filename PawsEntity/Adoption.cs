@@ -17,6 +17,6 @@ namespace PawsEntity
         public int OwnerId { get; set; }
         public int SpecieId { get; set; }
         public int RaceId { get; set; }
-        public int PetId { get; set; }
+        //public int PetId { get; set; }
     }
 }

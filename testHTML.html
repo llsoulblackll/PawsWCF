@@ -244,7 +244,7 @@
 		const HTTP_ERROR_PREFIX = '4';
 		const HTTP_OK_PREFIX = '2';
 
-		const URL = 'http://localhost:60602/Service/';
+		const URL = 'http://pawswcf-dev.us-west-2.elasticbeanstalk.com/Service/';
 		const PET_ENDPOINT = 'PetService.svc/';
 		const OWNER_ENDPOINT = 'OwnerService.svc/';
 		const DISTRICT_ENDPOINT = 'DistrictService.svc/';
@@ -288,7 +288,7 @@
 						xhr.send(data);
 					else if (typeof data === 'object') {
 						let json = JSON.stringify(data);
-						console.log(json);
+						//console.log(json);
 						xhr.send(json);
 					}
 				}
@@ -347,7 +347,7 @@
 						let select = document.getElementById('inputDis');
 
 						res.Response.forEach(d => {
-							console.log(d);
+							//console.log(d);
 							let opt = document.createElement('option');
 							opt.text = d.Name;
 							opt.value = d.Id;
@@ -376,7 +376,7 @@
 											  <td>${o.Username}</td>
 											  <td>${o.Name}</td>
 											  <td>${o.LastName}</td>
-											  <td><img class='img-responsive' src='${o.ProfilePicture}'></td>
+											  <td><img class='img-responsive' src='${o.ProfilePicture}' alt='img not found'></td>
 											  <td>${new Date(parseInt(o.BirthDate.substring(6))).toLocaleDateString()}</td>
 											  <td>${o.DNI}</td>
 											  <td>${o.EMail}</td>
@@ -396,7 +396,7 @@
 
 			petsTab.onclick = function () {
 				if (!this.classList.contains('active')) {
-					console.log(this);
+					//console.log(this);
 					lis.forEach(l => l.classList.remove('active'));
 					this.classList.add('active');
 
@@ -465,7 +465,7 @@
 						res.Response.forEach(p => tableString += `<tr>
 																	<td class='col-md-5'>${p.Name}</td>
 																	<td class='col-md-5'>${p.Age}</td>
-																	<td class='col-md-2'><img class='img-responsive' src='${p.Picture}'></td>
+																	<td class='col-md-2'><img class='img-responsive' src='${p.Picture}' alt='img not found'></td>
 																  </tr>`);
 						tableString += `</tbody>
 									</table>`;
@@ -478,7 +478,7 @@
 
 			districtsTab.onclick = function () {
 				if (!this.classList.contains('active')) {
-					console.log(this);
+					//console.log(this);
 					lis.forEach(l => l.classList.remove('active'));
 					this.classList.add('active');
 
@@ -505,7 +505,7 @@
 
 			speciesTab.onclick = function () {
 				if (!this.classList.contains('active')) {
-					console.log(this);
+					//console.log(this);
 					lis.forEach(l => l.classList.remove('active'));
 					this.classList.add('active');
 
@@ -680,8 +680,9 @@
 
 				let file = ownerForm.elements.item(9).files[0];
 				let fileReader = new FileReader();
-				fileReader.onload = function () {
-					let base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+				let base64img = undefined;
+				
+				function sendData(){
 					let objOwner = {
 						Username: ownerForm.elements.item(0).value,
 						Password: ownerForm.elements.item(1).value,
@@ -693,18 +694,26 @@
 						Address: ownerForm.elements.item(7).value,
 						PhoneNumber: ownerForm.elements.item(8).value,
 						ImageBase64: base64img || '',
-						ImageExtension: file.name.split('.')[1],
+						ImageExtension: file ? file.name.split('.')[1] : '',
 						DistrictId: parseInt(ownerForm.elements.item(10).value)
 					};
 					makeRequest(HTTP_METHOD.POST, `${URL}${OWNER_ENDPOINT}New`, function (res) {
-						console.log(res);
+						//console.log(res);
 						ownersTab.classList.remove('active');
 						ownersTab.click();
 
 					}, 'json', objOwner);
+				}
+				
+				fileReader.onload = function () {
+					base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+					sendData();
 				};
-
-				fileReader.readAsDataURL(file);
+				
+				if(file)
+					fileReader.readAsDataURL(file);
+				else
+					sendData();
 
 				return false;
 			};
@@ -721,27 +730,35 @@
 
 				let file = petForm.elements.item(3).files[0];
 				let fileReader = new FileReader();
-				fileReader.onload = function () {
-					let base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+				
+				function sendData(){
 					let objPet = {
 						Name: petForm.elements.item(0).value,
 						Age: petForm.elements.item(1).value,
 						Description: petForm.elements.item(2).value,
 						ImageBase64: base64img || '',
-						ImageExtension: file.name.split('.')[1],
+						ImageExtension: file ? file.name.split('.')[1] : '',
 						SpecieId: parseInt(petForm.elements.item(4).value),
 						RaceId: parseInt(petForm.elements.item(5).value),
 						OwnerId: parseInt(petForm.elements.item(6).value)
 					};
 					makeRequest(HTTP_METHOD.POST, `${URL}${PET_ENDPOINT}New`, function (res) {
-						console.log(res);
+						//console.log(res);
 						petsTab.classList.remove('active');
 						petsTab.click();
 
 					}, 'json', objPet);
+				}
+				
+				fileReader.onload = function () {
+					base64img = fileReader.result.substring(fileReader.result.indexOf(',') + 1, fileReader.length);
+					sendData();
 				};
 
-				fileReader.readAsDataURL(file);
+				if(file)
+					fileReader.readAsDataURL(file);
+				else
+					sendData();
 
 				return false;
 			};
@@ -767,7 +784,7 @@
 				};
 
 				makeRequest(HTTP_METHOD.POST, `${URL}${ADOPTION_ENDPOINT}New`, function (res) {
-					console.log(res);
+					//console.log(res);
 					adoptionsTab.classList.remove('active');
 					adoptionsTab.click();
 

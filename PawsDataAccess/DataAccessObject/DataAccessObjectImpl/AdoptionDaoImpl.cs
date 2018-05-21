@@ -21,7 +21,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string OWNER_ID_COLUMN = "OwnerId";
         private const string SPECIE_ID_COLUMN = "SpecieId";
         private const string RACE_ID_COLUMN = "RaceId";
-        private const string PET_ID_COLUMN = "PetId";
+        //private const string PET_ID_COLUMN = "PetId";
 
         private const string ID_PARAM = "@id";
         private const string STATE_PARAM = "@state";
@@ -35,7 +35,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string OWNER_ID_PARAM = "@ownerId";
         private const string SPECIE_ID_PARAM = "@specieId";
         private const string RACE_ID_PARAM = "@raceId";
-        private const string PET_ID_PARAM = "@petId";
+        //private const string PET_ID_PARAM = "@petId";
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         IDatabase db;
@@ -62,7 +62,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 cmd.Parameters.Add(db.GetParameter(OWNER_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.OwnerId)));
                 cmd.Parameters.Add(db.GetParameter(SPECIE_ID_COLUMN, DaoUtil.ValueOrDbNull(toInsert.SpecieId)));
                 cmd.Parameters.Add(db.GetParameter(RACE_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.RaceId)));
-                cmd.Parameters.Add(db.GetParameter(PET_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.PetId)));
+                //cmd.Parameters.Add(db.GetParameter(PET_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.PetId)));
                 cmd.Parameters.Add(db.GetOutputParameter(ID_PARAM, SqlDbType.Int));
 
                 cmd.ExecuteNonQuery();
@@ -127,7 +127,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                     int OWNER_ID_INDEX = dr.GetOrdinal(OWNER_ID_COLUMN);
                     int SPECIE_ID_INDEX = dr.GetOrdinal(SPECIE_ID_COLUMN);
                     int RACE_ID_INDEX = dr.GetOrdinal(RACE_ID_COLUMN);
-                    int PET_ID_INDEX = dr.GetOrdinal(PET_ID_COLUMN);
+                    //int PET_ID_INDEX = dr.GetOrdinal(PET_ID_COLUMN);
 
                     Adoption adop = null;
 
@@ -147,7 +147,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                             OwnerId = DaoUtil.ValueOrDefault<int>(OWNER_ID_INDEX, dr),
                             SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dr),
                             RaceId = DaoUtil.ValueOrDefault<int>(RACE_ID_INDEX, dr),
-                            PetId = DaoUtil.ValueOrDefault<int>(PET_ID_INDEX, dr)
+                            //PetId = DaoUtil.ValueOrDefault<int>(PET_ID_INDEX, dr)
                         };
                     }
 
@@ -173,7 +173,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 int OWNER_ID_INDEX = dr.GetOrdinal(OWNER_ID_COLUMN);
                 int SPECIE_ID_INDEX = dr.GetOrdinal(SPECIE_ID_COLUMN);
                 int RACE_ID_INDEX = dr.GetOrdinal(RACE_ID_COLUMN);
-                int PET_ID_INDEX = dr.GetOrdinal(PET_ID_COLUMN);
+                //int PET_ID_INDEX = dr.GetOrdinal(PET_ID_COLUMN);
 
                 List<Adoption> lAdoption = new List<Adoption>();
                 Adoption adop = null;
@@ -194,7 +194,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                         OwnerId = DaoUtil.ValueOrDefault<int>(OWNER_ID_INDEX, dr),
                         SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dr),
                         RaceId = DaoUtil.ValueOrDefault<int>(RACE_ID_INDEX, dr),
-                        PetId = DaoUtil.ValueOrDefault<int>(PET_ID_INDEX, dr)
+                        //PetId = DaoUtil.ValueOrDefault<int>(PET_ID_INDEX, dr)
                     };
 
                     lAdoption.Add(adop);

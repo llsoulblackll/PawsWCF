@@ -45,11 +45,14 @@
     <Compile Include="DataAccessObject\DaoUtil.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionAdopterDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionDaoImpl.cs" />
+    <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionPetDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\DistrictDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\FoundPetDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\LostPetDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\RaceDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\SpecieDaoImpl.cs" />
+    <Compile Include="DataAccessObject\DataAccessObjectImpl\SurveyDaoImpl.cs" />
+    <Compile Include="DataAccessObject\IAdoptionPetDao.cs" />
     <Compile Include="DataAccessObject\IDistrictDao.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\OwnerDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\PetDaoImpl.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="DataAccessObject\IPetDao.cs" />
     <Compile Include="DataAccessObject\IRaceDao.cs" />
     <Compile Include="DataAccessObject\ISpecieDao.cs" />
+    <Compile Include="DataAccessObject\ISurveyDao.cs" />
     <Compile Include="Database\DatabaseFactory.cs" />
     <Compile Include="Database\DatabaseImpl\SqlDatabase.cs" />
     <Compile Include="Database\IDatabase.cs" />

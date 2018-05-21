@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.3.22.5\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -62,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="index.html" />
     <Content Include="Service\AdoptionAdopterService.svc" />
     <Content Include="Service\AdoptionService.svc" />
     <Content Include="Service\DistrictService.svc" />
@@ -69,7 +73,6 @@
     <Content Include="Service\LostPetService.svc" />
     <Content Include="Service\OwnerService.svc" />
     <Content Include="Service\PetService.svc" />
-    <Content Include="Service1.svc" />
     <Content Include="Service\RaceService.svc" />
     <Content Include="Service\SpecieService.svc" />
     <Content Include="Web.config">
@@ -121,10 +124,6 @@
     <Compile Include="Service\PetService.svc.cs">
       <DependentUpon>PetService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
-    </Compile>
-    <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\RaceService.svc.cs">
       <DependentUpon>RaceService.svc</DependentUpon>
@@ -132,6 +131,7 @@
     <Compile Include="Service\SpecieService.svc.cs">
       <DependentUpon>SpecieService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Util\Util.cs" />
     <Compile Include="WCFConstant\Constant.cs" />
     <Compile Include="WCFConstant\WCFResponseCode.cs" />
     <Compile Include="WCFConstant\WCFResponseMessage.cs" />
@@ -140,6 +140,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

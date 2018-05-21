@@ -21,6 +21,6 @@ namespace PawsWCF.Contract
         [DataMember(Order = 10)]public int OwnerId { get; set; }
         [DataMember(Order = 11)]public int SpecieId { get; set; }
         [DataMember(Order = 12)]public int RaceId { get; set; }
-        [DataMember(Order = 13)]public int PetId { get; set; }
+        //[DataMember(Order = 13)]public int PetId { get; set; }
     }
 }

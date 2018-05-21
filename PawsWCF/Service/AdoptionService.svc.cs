@@ -36,7 +36,7 @@ namespace PawsWCF.Service
                 OwnerId = toInsert.OwnerId,
                 SpecieId = toInsert.SpecieId,
                 RaceId = toInsert.RaceId,
-                PetId = toInsert.PetId
+                //PetId = toInsert.PetId
             };
 
             return new WCFResponse<object>
@@ -62,7 +62,7 @@ namespace PawsWCF.Service
                 DistrictId = toUpdate.DistrictId,
                 OwnerId = toUpdate.OwnerId,
                 RaceId = toUpdate.RaceId,
-                PetId = toUpdate.PetId
+                //PetId = toUpdate.PetId
             };
 
             var result = adoptionBlo.Update(adoptionEntity);
@@ -135,7 +135,7 @@ namespace PawsWCF.Service
                         OwnerId = adoptionEntity.OwnerId,
                         SpecieId = adoptionEntity.SpecieId,
                         RaceId = adoptionEntity.RaceId,
-                        PetId = adoptionEntity.PetId
+                        //PetId = adoptionEntity.PetId
                     }
                 };
             }
@@ -174,7 +174,7 @@ namespace PawsWCF.Service
                         OwnerId = a.OwnerId,
                         SpecieId = a.SpecieId,
                         RaceId = a.RaceId,
-                        PetId = a.PetId
+                        //PetId = a.PetId
                     }).ToList()
                 };
             }
