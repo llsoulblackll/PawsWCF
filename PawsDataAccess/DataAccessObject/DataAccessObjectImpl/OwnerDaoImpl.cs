@@ -37,8 +37,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public OwnerDaoImpl()
         {
@@ -47,7 +47,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public int Insert(Owner toInsert, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_OWNER_INSERT, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_INSERT, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(USERNAME_PARAM, DaoUtil.ValueOrDbNull(toInsert.Username)));
                 cmd.Parameters.Add(db.GetParameter(PASSWORD_PARAM, DaoUtil.ValueOrDbNull(toInsert.Password)));
@@ -70,7 +70,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Update(Owner toUpdate, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_OWNER_UPDATE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_UPDATE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Id)));
                 cmd.Parameters.Add(db.GetParameter(USERNAME_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Username)));
@@ -94,7 +94,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object id, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_OWNER_DELETE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_DELETE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
                 cmd.Parameters.Add(db.GetOutputParameter(ROW_COUNT_PARAM, SqlDbType.Int));
@@ -107,10 +107,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Owner Find(object id, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_OWNER_FIND, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_FIND, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ID_COLUMN_INDEX = dr.GetOrdinal(ID_COLUMN);
                     int USERNAME_COLUMN_INDEX = dr.GetOrdinal(USERNAME_COLUMN);
@@ -151,8 +151,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<Owner> FindAll(IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_OWNER_FINDALL, conn))
-            using (dr = cmd.ExecuteReader())
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_FINDALL, conn))
+            using (var dr = cmd.ExecuteReader())
             {
                 int ID_COLUMN_INDEX = dr.GetOrdinal(ID_COLUMN);
                 int USERNAME_COLUMN_INDEX = dr.GetOrdinal(USERNAME_COLUMN);
@@ -194,12 +194,14 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Owner Login(Owner owner, IDbConnection conn)
         {
-            using (cmd = db.GetCommand(USP_OWNER_LOGIN, conn))
+            //EXCEPTION IS THROWN WHEN CALLING SP WITHOUT SPECIFYING, CommandType.Text INSTEAD OR StoredProcedure, FOR SOME REASON
+            using (var cmd = db.GetStoredProcedureCommand(USP_OWNER_LOGIN, conn))
             {
-                cmd.Parameters.Add(db.GetParameter(USERNAME_PARAM, owner.Username));
-                cmd.Parameters.Add(db.GetParameter(PASSWORD_PARAM, owner.Password));
+                //CANNOT SEND EMPTY STRING???
+                cmd.Parameters.Add(db.GetParameter(USERNAME_PARAM, DaoUtil.ValueOrDbNull(owner.Username)));
+                cmd.Parameters.Add(db.GetParameter(PASSWORD_PARAM, DaoUtil.ValueOrDbNull(owner.Password)));
 
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ID_COLUMN_INDEX = dr.GetOrdinal(ID_COLUMN);
                     int USERNAME_COLUMN_INDEX = dr.GetOrdinal(USERNAME_COLUMN);
@@ -213,10 +215,12 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                     int PHONE_COLUMN_INDEX = dr.GetOrdinal(PHONE_COLUMN);
                     int PROFILE_PIC_COLUMN_INDEX = dr.GetOrdinal(PROFILE_PIC_COLUMN);
                     int DISTRICT_ID_COLUMN_INDEX = dr.GetOrdinal(DISTRICT_ID_COLUMN);
-                    
+
+                    Owner o = null;
+
                     if (dr.Read())
                     {
-                        owner = new Owner
+                        o = new Owner
                         {
                             Id = DaoUtil.ValueOrDefault<int>(ID_COLUMN_INDEX, dr),
                             Username = DaoUtil.ValueOrDefault<string>(USERNAME_COLUMN_INDEX, dr),
@@ -232,7 +236,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                             DistrictId = DaoUtil.ValueOrDefault<int>(DISTRICT_ID_COLUMN_INDEX, dr)
                         };
                     }
-                    return owner;
+
+                    return o;
                 }
             }
         }

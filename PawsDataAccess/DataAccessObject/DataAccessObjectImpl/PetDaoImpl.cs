@@ -32,8 +32,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         private IDatabase db;
 
-        private IDbCommand command;
-        private IDataReader dataReader;
+        //private IDbCommand command;
+        //private IDataReader dataReader;
 
         public PetDaoImpl()
         {
@@ -42,7 +42,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public int Insert(Pet toInsert, IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_INSERT, conn))
+            using (var command = db.GetStoredProcedureCommand(USP_PET_INSERT, conn))
             {
                 command.Parameters.Add(db.GetParameter(NAME_PARAM, DaoUtil.ValueOrDbNull(toInsert.Name)));
                 command.Parameters.Add(db.GetParameter(AGE_PARAM, DaoUtil.ValueOrDbNull(toInsert.Age)));
@@ -65,7 +65,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Update(Pet toUpdate, IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_UPDATE, conn))
+            using (var command = db.GetStoredProcedureCommand(USP_PET_UPDATE, conn))
             {
                 command.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Id)));
                 command.Parameters.Add(db.GetParameter(NAME_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Name)));
@@ -85,7 +85,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object id, IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_DELETE, conn))
+            using (var command = db.GetStoredProcedureCommand(USP_PET_DELETE, conn))
             {
                 command.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
                 command.Parameters.Add(db.GetOutputParameter(ROW_COUNT_PARAM, SqlDbType.Int));
@@ -96,7 +96,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Pet Find(object id, IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_FIND, conn))
+            using (var command = db.GetStoredProcedureCommand(USP_PET_FIND, conn))
             {
                 var param = command.CreateParameter();
                 param.ParameterName = "@id";
@@ -104,7 +104,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 param.DbType = DbType.Int32;
                 command.Parameters.Add(DaoUtil.ValueOrDbNull(param));
 
-                using (dataReader = command.ExecuteReader())
+                using (var dataReader = command.ExecuteReader())
                 {
                     int ID_INDEX = dataReader.GetOrdinal(ID_COLUMN);
                     int NAME_INDEX = dataReader.GetOrdinal(NAME_COLUMN);
@@ -146,8 +146,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<Pet> FindAll(IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_FINDALL, conn))
-            using (dataReader = command.ExecuteReader())
+            using (var command = db.GetStoredProcedureCommand(USP_PET_FINDALL, conn))
+            using (var dataReader = command.ExecuteReader())
             {
                 int ID_INDEX = dataReader.GetOrdinal(ID_COLUMN);
                 int NAME_INDEX = dataReader.GetOrdinal(NAME_COLUMN);
@@ -182,10 +182,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<Pet> FindAll(object ownerId, IDbConnection conn)
         {
-            using (command = db.GetStoredProcedureCommand(USP_PET_FINDALL, conn))
+            using (var command = db.GetStoredProcedureCommand(USP_PET_FINDALL, conn))
             {
                 command.Parameters.Add(db.GetParameter(ID_PARAM, ownerId));
-                using (dataReader = command.ExecuteReader())
+                using (var dataReader = command.ExecuteReader())
                 {
                     int ID_INDEX = dataReader.GetOrdinal(ID_COLUMN);
                     int NAME_INDEX = dataReader.GetOrdinal(NAME_COLUMN);

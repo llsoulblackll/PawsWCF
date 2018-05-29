@@ -16,8 +16,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string SPECIE_ID_PARAM = "@specieId";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public RaceDaoImpl()
         {
@@ -51,10 +51,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<Race> FindAll(object specieId, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_RACE_FINDALL, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_RACE_FINDALL, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(SPECIE_ID_PARAM, DaoUtil.ValueOrDbNull(specieId)));
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
                     int NAME_INDEX = dr.GetOrdinal(NAME_COLUMN);

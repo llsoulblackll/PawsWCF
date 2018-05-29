@@ -29,8 +29,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         private IDatabase db;
-        private IDbCommand cmd;
-        private IDataReader dr;
+        //private IDbCommand cmd;
+        //private IDataReader dr;
 
         public SurveyDaoImpl()
         {
@@ -39,7 +39,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public int Insert(Survey toInsert, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_SURVEY_INSERT, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_SURVEY_INSERT, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(HOME_DESC_PARAM, DaoUtil.ValueOrDbNull(toInsert.HomeDescription)));
                 cmd.Parameters.Add(db.GetParameter(AMOUNT_PEOPLE_PARAM, DaoUtil.ValueOrDbNull(toInsert.AmountOfPeople)));
@@ -58,7 +58,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Update(Survey toUpdate, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_SURVEY_UPDATE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_SURVEY_UPDATE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Id)));
                 cmd.Parameters.Add(db.GetParameter(HOME_DESC_PARAM, DaoUtil.ValueOrDbNull(toUpdate.HomeDescription)));
@@ -83,11 +83,11 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Survey Find(object id, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_SURVEY_FIND, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_SURVEY_FIND, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
 
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
                     int HOME_DESC_INDEX = dr.GetOrdinal(HOME_DESC_COLUMN);

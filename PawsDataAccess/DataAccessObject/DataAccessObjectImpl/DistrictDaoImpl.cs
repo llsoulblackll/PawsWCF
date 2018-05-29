@@ -13,8 +13,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string NAME_COLUMN = "Name";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public DistrictDaoImpl()
         {
@@ -43,8 +43,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<District> FindAll(IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_DISTRICT_FINDALL, conn))
-            using (dr = cmd.ExecuteReader())
+            using (var cmd = db.GetStoredProcedureCommand(USP_DISTRICT_FINDALL, conn))
+            using (var dr = cmd.ExecuteReader())
             {
                 int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
                 int NAME_INDEX = dr.GetOrdinal(NAME_COLUMN);

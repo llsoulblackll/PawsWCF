@@ -22,8 +22,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public AdoptionAdopterDaoImpl()
         {
@@ -42,7 +42,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Insert(AdoptionAdopter toInsert, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_INSERT, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_INSERT, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.AdoptionId)));
                 cmd.Parameters.Add(db.GetParameter(ADOPTER_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.AdopterId)));
@@ -69,7 +69,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object adoptionId, object adopterId, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_DELETE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_DELETE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(adoptionId)));
                 cmd.Parameters.Add(db.GetParameter(ADOPTER_ID_PARAM, DaoUtil.ValueOrDbNull(adopterId)));
@@ -89,12 +89,12 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public AdoptionAdopter Find(object adoptionId, object adopterId, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FIND, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FIND, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(adoptionId)));
                 cmd.Parameters.Add(db.GetParameter(ADOPTER_ID_PARAM, DaoUtil.ValueOrDbNull(adopterId)));
 
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ADOPTION_ID_INDEX= dr.GetOrdinal(ADOPTION_ID_COLUMN);
                     int ADOPTER_ID_INDEX = dr.GetOrdinal(ADOPTER_ID_COLUMN);
@@ -126,11 +126,11 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<AdoptionAdopter> FindAll(object adoptionId, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FINDALL, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FINDALL, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(adoptionId)));
                 
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ADOPTION_ID_INDEX = dr.GetOrdinal(ADOPTION_ID_COLUMN);
                     int ADOPTER_ID_INDEX = dr.GetOrdinal(ADOPTER_ID_COLUMN);

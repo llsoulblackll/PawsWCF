@@ -21,8 +21,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public AdoptionPetDaoImpl()
         {
@@ -31,7 +31,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Insert(AdoptionPet toInsert, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_PET_INSERT, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_PET_INSERT, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.AdoptionId)));
                 cmd.Parameters.Add(db.GetParameter(PET_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.PetId)));
@@ -61,7 +61,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object adoptionId, object petId, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_PET_DELETE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_PET_DELETE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, adoptionId));
                 cmd.Parameters.Add(db.GetParameter(PET_ID_PARAM, petId));
@@ -85,10 +85,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<AdoptionPet> FindAll(object adoptionId, IDbConnection conn)
         {
-            using (cmd = db.GetCommand(USP_ADOPTION_PET_FINDALL, conn))
+            using (var cmd = db.GetCommand(USP_ADOPTION_PET_FINDALL, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, adoptionId));
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ADOPTION_ID_INDEX = dr.GetOrdinal(ADOPTION_ID_COLUMN);
                     int PET_ID_INDEX = dr.GetOrdinal(PET_ID_COLUMN);

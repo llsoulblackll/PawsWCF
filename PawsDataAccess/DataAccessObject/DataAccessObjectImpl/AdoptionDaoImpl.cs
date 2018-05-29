@@ -39,8 +39,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ROW_COUNT_PARAM = "@rowCount";
 
         IDatabase db;
-        IDbCommand cmd;
-        IDataReader dr;
+        //IDbCommand cmd;
+        //IDataReader dr;
 
         public AdoptionDaoImpl()
         {
@@ -49,7 +49,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public int Insert(Adoption toInsert, IDbConnection conn)
         {
-            using(cmd = db.GetStoredProcedureCommand(USP_ADOPTION_INSERT, conn))
+            using(var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_INSERT, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(STATE_PARAM, DaoUtil.ValueOrDbNull(toInsert.State)));
                 cmd.Parameters.Add(db.GetParameter(DESC_PARAM, DaoUtil.ValueOrDbNull(toInsert.Description)));
@@ -73,7 +73,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Update(Adoption toUpdate, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_UPDATE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_UPDATE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Id)));
                 cmd.Parameters.Add(db.GetParameter(STATE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.State)));
@@ -97,7 +97,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object id, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_DELETE, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_DELETE, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
                 cmd.Parameters.Add(db.GetOutputParameter(ROW_COUNT_PARAM, SqlDbType.Int));
@@ -110,10 +110,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Adoption Find(object id, IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_FIND, conn))
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_FIND, conn))
             {
                 cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(id)));
-                using (dr = cmd.ExecuteReader())
+                using (var dr = cmd.ExecuteReader())
                 {
                     int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
                     int STATE_INDEX = dr.GetOrdinal(STATE_COLUMN);
@@ -158,8 +158,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public List<Adoption> FindAll(IDbConnection conn)
         {
-            using (cmd = db.GetStoredProcedureCommand(USP_ADOPTION_FINDALL, conn))
-            using (dr = cmd.ExecuteReader())
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_FINDALL, conn))
+            using (var dr = cmd.ExecuteReader())
             {
                 int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
                 int STATE_INDEX = dr.GetOrdinal(STATE_COLUMN);
