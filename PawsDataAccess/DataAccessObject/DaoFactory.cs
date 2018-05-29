@@ -35,6 +35,16 @@ namespace PawsDataAccess.DataAccessObject
             return new OwnerDaoImpl();
         }
 
+        public static ISurveyDao GetSurveyDao()
+        {
+            return new SurveyDaoImpl();
+        }
+
+        public static IAdoptionPetDao GetAdoptionPetDao()
+        {
+            return new AdoptionPetDaoImpl();
+        }
+
         public static IAdoptionAdopterDao GetAdoptionAdopterDao()
         {
             return new AdoptionAdopterDaoImpl();

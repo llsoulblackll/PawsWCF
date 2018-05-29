@@ -33,9 +33,19 @@ namespace PawsBussinessLogic.BussinessLogicObject
             return new OwnerBlo();
         }
 
+        public static SurveyBlo GetSurveyBlo()
+        {
+            return new SurveyBlo();
+        }
+
         public static AdoptionAdopterBlo GetAdoptionAdopterBlo()
         {
             return new AdoptionAdopterBlo();
+        }
+
+        public static AdoptionPetBlo GetAdoptionPetBlo()
+        {
+            return new AdoptionPetBlo();
         }
 
         public static LostPetBlo GetLostPetBlo()

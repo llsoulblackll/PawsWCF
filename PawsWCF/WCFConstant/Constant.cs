@@ -8,5 +8,7 @@ namespace PawsWCF.WCFConstant
     public static class Constant
     {
         public const string UPLOAD_FOLDER = "Upload";
+        public const string AWS_BUCKET = "";
+        
     }
 }

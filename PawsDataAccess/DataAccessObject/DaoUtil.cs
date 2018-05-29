@@ -20,6 +20,8 @@ namespace PawsDataAccess.DataAccessObject
         {
             var type = typeof(T);
 
+            //return (T)Convert.ChangeType("", TypeCode.Int32);
+
             if (type == typeof(int))
                 return (T)(object)(dataReader.IsDBNull(index) ? default(int) : dataReader.GetInt32(index));
             else if (type == typeof(string))

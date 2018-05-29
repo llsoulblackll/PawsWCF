@@ -44,6 +44,9 @@
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.Core.3.3.22.5\lib\net45\AWSSDK.Core.dll</HintPath>
     </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.3.18.2\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -67,6 +70,7 @@
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Service\AdoptionAdopterService.svc" />
+    <Content Include="Service\AdoptionPetService.svc" />
     <Content Include="Service\AdoptionService.svc" />
     <Content Include="Service\DistrictService.svc" />
     <Content Include="Service\FoundPetService.svc" />
@@ -75,6 +79,7 @@
     <Content Include="Service\PetService.svc" />
     <Content Include="Service\RaceService.svc" />
     <Content Include="Service\SpecieService.svc" />
+    <Content Include="Service\SurveyService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -82,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Contract\AdoptionAdopterContract.cs" />
     <Compile Include="Contract\AdoptionContract.cs" />
+    <Compile Include="Contract\AdoptionPetContract.cs" />
     <Compile Include="Contract\DistrictContract.cs" />
     <Compile Include="Contract\FoundPetContract.cs" />
     <Compile Include="Contract\LostPetContract.cs" />
@@ -89,12 +95,16 @@
     <Compile Include="Contract\PetContract.cs" />
     <Compile Include="Contract\RaceContract.cs" />
     <Compile Include="Contract\SpecieContract.cs" />
+    <Compile Include="Contract\SurveyContract.cs" />
     <Compile Include="Contract\WCFResponse.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Service\AdoptionAdopterService.svc.cs">
       <DependentUpon>AdoptionAdopterService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\AdoptionPetService.svc.cs">
+      <DependentUpon>AdoptionPetService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\AdoptionService.svc.cs">
       <DependentUpon>AdoptionService.svc</DependentUpon>
@@ -106,6 +116,7 @@
       <DependentUpon>FoundPetService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\IAdoptionAdopterService.cs" />
+    <Compile Include="Service\IAdoptionPetService.cs" />
     <Compile Include="Service\IAdoptionService.cs" />
     <Compile Include="Service\IDistrictService.cs" />
     <Compile Include="Service\IEntityService.cs" />
@@ -115,6 +126,7 @@
     <Compile Include="Service\IPetService.cs" />
     <Compile Include="Service\IRaceService.cs" />
     <Compile Include="Service\ISpecieService.cs" />
+    <Compile Include="Service\ISurveyService.cs" />
     <Compile Include="Service\LostPetService.svc.cs">
       <DependentUpon>LostPetService.svc</DependentUpon>
     </Compile>
@@ -130,6 +142,9 @@
     </Compile>
     <Compile Include="Service\SpecieService.svc.cs">
       <DependentUpon>SpecieService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\SurveyService.svc.cs">
+      <DependentUpon>SurveyService.svc</DependentUpon>
     </Compile>
     <Compile Include="Util\Util.cs" />
     <Compile Include="WCFConstant\Constant.cs" />
@@ -157,6 +172,9 @@
       <Project>{caaf2a90-6b5f-484b-97a0-d8e8fc991edf}</Project>
       <Name>PawsEntity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.3.18.2\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

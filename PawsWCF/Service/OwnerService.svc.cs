@@ -7,6 +7,7 @@ using PawsBussinessLogic.BussinessLogicObject;
 using PawsEntity;
 using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
+using static PawsWCF.Util.Util;
 using static PawsWCF.WCFConstant.Constant;
 
 namespace PawsWCF.Service
@@ -40,21 +41,28 @@ namespace PawsWCF.Service
 
             int genId = ownerBlo.Insert(ownerEntity);
             ownerEntity.Id = genId;
-            string fullPath = "";
+
+            bool result = genId > 0;
+
+            //if(!string.IsNullOrWhiteSpace(toInsert.ImageBase64) && !string.IsNullOrWhiteSpace(toInsert.ImageExtension))
+            //{
+            //    string filePath = $"{genId}_{toInsert.Name}_{toInsert.LastName}_{DateTime.Now.Ticks}.{toInsert.ImageExtension}";
+            //    result = IOUtil.SaveFile($"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{filePath}", toInsert.ImageBase64);
+            //    string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{filePath}";
+            //    ownerEntity.ProfilePicture = serverPath;
+
+            //    if (result)
+            //    {
+            //        result = ownerBlo.Update(ownerEntity);
+            //    }
+            //}
 
             if (!string.IsNullOrWhiteSpace(toInsert.ImageBase64) && !string.IsNullOrWhiteSpace(toInsert.ImageExtension))
             {
-                string filePath = $"{genId}_{toInsert.Name}_{toInsert.LastName}_{DateTime.Now.Ticks}.{toInsert.ImageExtension}";
-                fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{filePath}";
-                string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{filePath}";
-                File.WriteAllBytes(fullPath, Convert.FromBase64String(toInsert.ImageBase64));
-                ownerEntity.ProfilePicture = serverPath;
-            }
+                string url = AWSUtil.UploadToS3($"{genId}_{toInsert.Name}_{toInsert.LastName}_{DateTime.Now.Ticks}.{toInsert.ImageExtension}",
+                    Convert.FromBase64String(toInsert.ImageBase64));
 
-            //AT THIS POINT INSERTION WAS SUCCESSFUL
-            bool result = true;
-            if (File.Exists(fullPath))
-            {
+                ownerEntity.ProfilePicture = url;
                 result = ownerBlo.Update(ownerEntity);
             }
 
@@ -96,22 +104,32 @@ namespace PawsWCF.Service
                 DistrictId = toUpdate.DistrictId
             };
 
-            string fullPath = "";
+            bool result = false;
+
+            //if (!string.IsNullOrWhiteSpace(toUpdate.ImageBase64) && !string.IsNullOrWhiteSpace(toUpdate.ImageExtension))
+            //{
+            //    string fileName = $"{ownerEntity.Id}_{ownerEntity.Name}_{ownerEntity.LastName}_{DateTime.Now.Ticks}.{toUpdate.ImageExtension}";
+            //    result = IOUtil.SaveFile($"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{fileName}", toUpdate.ImageBase64);
+            //    string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
+
+            //    if (string.IsNullOrWhiteSpace(ownerEntity.ProfilePicture))
+            //        IOUtil.DeleteFile(ownerEntity.ProfilePicture);
+
+            //    ownerEntity.ProfilePicture = serverPath;
+            //}
 
             if (!string.IsNullOrWhiteSpace(toUpdate.ImageBase64) && !string.IsNullOrWhiteSpace(toUpdate.ImageExtension))
             {
-                string fileName = $"{ownerEntity.Id}_{ownerEntity.Name}_{ownerEntity.LastName}_{DateTime.Now.Ticks}.{toUpdate.ImageExtension}";
-                fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{fileName}";
-                string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
+                string objectKey = $"{toUpdate.Id}_{toUpdate.Name}_{toUpdate.LastName}_{DateTime.Now.Ticks}.{toUpdate.ImageExtension}";
+                string url = AWSUtil.UploadToS3(objectKey, Convert.FromBase64String(toUpdate.ImageBase64));
 
-                File.WriteAllBytes(fullPath, Convert.FromBase64String(toUpdate.ImageBase64));
-
-                if (File.Exists(ownerEntity.ProfilePicture))
-                    File.Delete(ownerEntity.ProfilePicture);
-                ownerEntity.ProfilePicture = serverPath;
+                if (!string.IsNullOrWhiteSpace(ownerEntity.ProfilePicture))
+                    AWSUtil.DeleteFromS3(ownerEntity.ProfilePicture.Substring(ownerEntity.ProfilePicture.LastIndexOf('/') + 1));
+                ownerEntity.ProfilePicture = url;
             }
 
-            bool result = ownerBlo.Update(ownerEntity);
+            //UPDATE AFTER
+            result = ownerBlo.Update(ownerEntity);
 
             if (result)
             {
@@ -122,6 +140,7 @@ namespace PawsWCF.Service
                     Response = result
                 };
             }
+
             else
             {
                 return new WCFResponse<object>
@@ -138,10 +157,10 @@ namespace PawsWCF.Service
             int ownerId = int.Parse(id);
             Owner owner = ownerBlo.Find(ownerId);
 
-            if (File.Exists(owner.ProfilePicture))
-                File.Delete(owner.ProfilePicture);
+            bool result = ownerBlo.Delete(ownerId); 
 
-            bool result = ownerBlo.Delete(ownerId);
+            if (result)
+                result = AWSUtil.DeleteFromS3(owner.ProfilePicture.Substring(owner.ProfilePicture.LastIndexOf('/') + 1));
 
             if (result)
             {
@@ -187,7 +206,7 @@ namespace PawsWCF.Service
                         PhoneNumber = owner.PhoneNumber,
                         ProfilePicture = owner.ProfilePicture,
                         DistrictId = owner.DistrictId
-                    } 
+                    }
                 };
             }
             else
@@ -244,7 +263,7 @@ namespace PawsWCF.Service
             Owner ownerEntity = new Owner { Username = owner.Username, Password = owner.Password };
             ownerEntity = ownerBlo.Login(ownerEntity);
 
-            if(ownerEntity != null)
+            if (ownerEntity != null)
             {
                 return new WCFResponse<OwnerContract>
                 {
@@ -279,3 +298,38 @@ namespace PawsWCF.Service
         }
     }
 }
+
+
+
+
+
+//string fullPath = "";
+
+//if (!string.IsNullOrWhiteSpace(toInsert.ImageBase64) && !string.IsNullOrWhiteSpace(toInsert.ImageExtension))
+//{
+//    string filePath = $"{genId}_{toInsert.Name}_{toInsert.LastName}_{DateTime.Now.Ticks}.{toInsert.ImageExtension}";
+//    fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{filePath}";
+//    string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{filePath}";
+//    File.WriteAllBytes(fullPath, Convert.FromBase64String(toInsert.ImageBase64));
+//    ownerEntity.ProfilePicture = serverPath;
+//}
+
+////AT THIS POINT INSERTION WAS SUCCESSFUL
+//bool result = true;
+//if (File.Exists(fullPath))
+//{
+//    result = ownerBlo.Update(ownerEntity);
+//}
+
+//if (!string.IsNullOrWhiteSpace(toUpdate.ImageBase64) && !string.IsNullOrWhiteSpace(toUpdate.ImageExtension))
+//{
+//    string fileName = $"{ownerEntity.Id}_{ownerEntity.Name}_{ownerEntity.LastName}_{DateTime.Now.Ticks}.{toUpdate.ImageExtension}";
+//    fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{UPLOAD_FOLDER}\\{fileName}";
+//    string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
+
+//    File.WriteAllBytes(fullPath, Convert.FromBase64String(toUpdate.ImageBase64));
+
+//    if (File.Exists(ownerEntity.ProfilePicture))
+//        File.Delete(ownerEntity.ProfilePicture);
+//    ownerEntity.ProfilePicture = serverPath;
+//}

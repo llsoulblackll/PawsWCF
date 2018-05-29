@@ -8,6 +8,7 @@ using PawsEntity;
 using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
 using static PawsWCF.WCFConstant.Constant;
+using static PawsWCF.Util.Util;
 
 namespace PawsWCF.Service
 {
@@ -37,26 +38,18 @@ namespace PawsWCF.Service
 
             int genId = petBlo.Insert(petEntity);
             petEntity.Id = genId;
-            string savePath = "";
 
-            if (!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+            bool result = genId > 0;
+
+            if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
             {
                 string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-                savePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}"));
-                File.WriteAllBytes(savePath, Convert.FromBase64String(pet.ImageBase64));
+                result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
                 petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+
+                if (result)
+                    petBlo.Update(petEntity);
             }
-
-            bool result = true;//BY DEFAULT SINCE THE INSERTION WAS 'SUCCESSFUL'
-
-            if (File.Exists(savePath))
-                result = petBlo.Update(petEntity);
-            
-            /*else
-            {
-                petBlo.Delete(pet.Id);
-                result = false;
-            }*/
 
             if (result)
             {
@@ -91,24 +84,20 @@ namespace PawsWCF.Service
                 RaceId = pet.RaceId,
                 OwnerId = pet.OwnerId
             };
-            
-            if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+
+            bool result = false;
+
+            if (!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
             {
-                string fileName = $"{pet.Id}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-                string fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\${UPLOAD_FOLDER}\\{fileName}";
-                string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
-                File.WriteAllBytes(fullPath, Convert.FromBase64String(pet.ImageBase64));
+                string partialPath = $"{petEntity.Id}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
+                result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
+                petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
 
-                //DO IT AFTER THE WRITE TO ENSURE THE NEW IMAGE HAS BEEN SAVED
-                if (!string.IsNullOrWhiteSpace(pet.Picture))
-                {
-                    File.Delete(pet.Picture);
-                }
-
-                petEntity.Picture = serverPath;
+                if (result && string.IsNullOrWhiteSpace(petEntity.Picture))
+                    IOUtil.DeleteFile(petEntity.Picture);
             }
 
-            var result = petBlo.Update(petEntity);
+            result = petBlo.Update(petEntity);
 
             if (result)
             {
@@ -135,8 +124,7 @@ namespace PawsWCF.Service
             int petId = int.Parse(id);
             Pet pet = petBlo.Find(petId);
 
-            if (File.Exists(pet.Picture))
-                File.Delete(pet.Picture);
+            IOUtil.DeleteFile(pet.Picture);
 
             var response = petBlo.Delete(petId);
             if (response)
@@ -220,6 +208,7 @@ namespace PawsWCF.Service
         {
             int id = int.Parse(ownerId);
             var pets = petBlo.FindAll(id);
+
             if (pets != null) {
                 return new WCFResponse<List<PetContract>>
                 {
@@ -250,3 +239,43 @@ namespace PawsWCF.Service
         }
     }
 }
+
+
+
+
+//string savePath = "";
+
+//if (!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+//{
+//    string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
+//    savePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}"));
+//    File.WriteAllBytes(savePath, Convert.FromBase64String(pet.ImageBase64));
+//    petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+//}
+
+//bool result = true;//BY DEFAULT SINCE THE INSERTION WAS 'SUCCESSFUL'
+
+//if (File.Exists(savePath))
+//    result = petBlo.Update(petEntity);
+
+///*else
+//{
+//    petBlo.Delete(pet.Id);
+//    result = false;
+//}*/
+
+//if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
+//{
+//    string fileName = $"{pet.Id}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
+//    string fullPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\${UPLOAD_FOLDER}\\{fileName}";
+//    string serverPath = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{fileName}";
+//    File.WriteAllBytes(fullPath, Convert.FromBase64String(pet.ImageBase64));
+
+//    //DO IT AFTER THE WRITE TO ENSURE THE NEW IMAGE HAS BEEN SAVED
+//    if (!string.IsNullOrWhiteSpace(pet.Picture))
+//    {
+//        File.Delete(pet.Picture);
+//    }
+
+//    petEntity.Picture = serverPath;
+//}
