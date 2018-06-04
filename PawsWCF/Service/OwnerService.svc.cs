@@ -72,7 +72,7 @@ namespace PawsWCF.Service
                 {
                     ResponseCode = WCFResponseCode.Success,
                     ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
-                    Response = result
+                    Response = genId
                 };
             }
             else
@@ -81,7 +81,7 @@ namespace PawsWCF.Service
                 {
                     ResponseCode = WCFResponseCode.Error,
                     ResponseMessage = WCFResponseMessage.WCF_ERROR,
-                    Response = result
+                    Response = 0
                 };
             }
         }

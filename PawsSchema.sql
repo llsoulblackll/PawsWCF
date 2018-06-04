@@ -83,7 +83,7 @@ CREATE TABLE Survey
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	HomeDescription VARCHAR(MAX),
-	AmountOfPeople INT,
+	AmountOfPeople VARCHAR(300),
 	OtherPets BIT,
 	OtherPetsDescription VARCHAR(MAX),
 	WorkType VARCHAR(300),
@@ -341,7 +341,7 @@ GO
 
 CREATE PROCEDURE usp_Survey_Insert
 @homeDesc VARCHAR(MAX),
-@people INT,
+@people VARCHAR(300),
 @otherPets BIT,
 @otherPetsDesc VARCHAR(MAX),
 @workType VARCHAR(300),
@@ -371,7 +371,7 @@ GO
 CREATE PROCEDURE usp_Survey_Update
 @id INT,
 @homeDesc VARCHAR(MAX),
-@people INT,
+@people VARCHAR(300),
 @otherPets BIT,
 @otherPetsDesc VARCHAR(MAX),
 @workType VARCHAR(300),

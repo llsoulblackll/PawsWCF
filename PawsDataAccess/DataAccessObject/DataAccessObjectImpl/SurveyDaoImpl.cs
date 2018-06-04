@@ -106,7 +106,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                         {
                             Id = DaoUtil.ValueOrDefault<int>(ID_INDEX, dr),
                             HomeDescription = DaoUtil.ValueOrDefault<string>(HOME_DESC_INDEX, dr),
-                            AmountOfPeople = DaoUtil.ValueOrDefault<int>(AMOUNT_PEOPLE_INDEX, dr),
+                            AmountOfPeople = DaoUtil.ValueOrDefault<string>(AMOUNT_PEOPLE_INDEX, dr),
                             OtherPets = DaoUtil.ValueOrDefault<bool>(OTHER_PETS_INDEX, dr),
                             OtherPetsDescription = DaoUtil.ValueOrDefault<string>(OTHER_PETS_DESC_INDEX, dr),
                             WorkType = DaoUtil.ValueOrDefault<string>(WORK_TYPE_INDEX, dr),

@@ -48,12 +48,42 @@ namespace PawsWCF.Service
                     Response = result
                 };
             }
-            
         }
 
         public WCFResponse<object> Update(SurveyContract toUpdate)
         {
-            throw new NotImplementedException();
+            Survey survey = new Survey
+            {
+                Id = toUpdate.Id,
+                AmountOfPeople = toUpdate.AmountOfPeople,
+                HomeDescription = toUpdate.HomeDescription,
+                OtherPets = toUpdate.OtherPets,
+                OtherPetsDescription = toUpdate.OtherPetsDescription,
+                WorkType = toUpdate.WorkType,
+                Availability = toUpdate.Availability,
+                OwnerId = toUpdate.OwnerId
+            };
+
+            bool result = surveyBlo.Update(survey);
+
+            if (result)
+            {
+                return new WCFResponse<object>
+                {
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
+                    Response = result
+                };
+            }
+            else
+            {
+                return new WCFResponse<object>
+                {
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR,
+                    Response = result
+                };
+            }
         }
 
         public WCFResponse<object> Delete(string id)
@@ -63,7 +93,36 @@ namespace PawsWCF.Service
 
         public WCFResponse<SurveyContract> Find(string id)
         {
-            throw new NotImplementedException();
+            Survey survey = surveyBlo.Find(int.Parse(id));
+
+            if(survey != null)
+            {
+                return new WCFResponse<SurveyContract>
+                {
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
+                    Response = new SurveyContract
+                    {
+                        Id = survey.Id,
+                        AmountOfPeople = survey.AmountOfPeople,
+                        HomeDescription = survey.HomeDescription,
+                        OtherPets = survey.OtherPets,
+                        OtherPetsDescription = survey.OtherPetsDescription,
+                        WorkType = survey.WorkType,
+                        Availability = survey.Availability,
+                        OwnerId = survey.OwnerId
+                    }
+                };
+            }
+            else
+            {
+                return new WCFResponse<SurveyContract>
+                {
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR,
+                    Response = null
+                };
+            }
         }
 
         public WCFResponse<List<SurveyContract>> FindAll()

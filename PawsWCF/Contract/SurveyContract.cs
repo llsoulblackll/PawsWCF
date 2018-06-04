@@ -10,7 +10,7 @@ namespace PawsWCF.Contract
     public class SurveyContract
     {
         [DataMember(Order = 1)]public int Id { get; set; }
-        [DataMember(Order = 2)]public int AmountOfPeople { get; set; }
+        [DataMember(Order = 2)]public string AmountOfPeople { get; set; }
         [DataMember(Order = 3)]public string HomeDescription { get; set; }
         [DataMember(Order = 4)]public bool OtherPets { get; set; }
         [DataMember(Order = 5)]public string OtherPetsDescription { get; set; }

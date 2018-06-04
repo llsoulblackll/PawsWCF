@@ -4,7 +4,7 @@ namespace PawsEntity
     public class Survey
     {
         public int Id { get; set; }
-        public int AmountOfPeople { get; set; }
+        public string AmountOfPeople { get; set; }
         public string HomeDescription { get; set; }
         public bool OtherPets { get; set; }
         public string OtherPetsDescription { get; set; }
