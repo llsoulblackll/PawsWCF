@@ -44,10 +44,11 @@ namespace PawsWCF.Service
             if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
             {
                 string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-                bool result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
-                petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+                //bool result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
+                //petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+                petEntity.Picture = AWSUtil.UploadToS3(partialPath, pet.ImageBase64);
 
-                if (result)
+                if (!string.IsNullOrWhiteSpace(petEntity.Picture))
                     petBlo.Update(petEntity);
             }
 
@@ -90,11 +91,13 @@ namespace PawsWCF.Service
             if (!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
             {
                 string partialPath = $"{petEntity.Id}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-                result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
-                petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+                //result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
+                string oldPic = petEntity.Picture;
+                petEntity.Picture = AWSUtil.UploadToS3(partialPath, pet.ImageBase64);//$"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
+                result = !string.IsNullOrWhiteSpace(petEntity.Picture);
 
-                if (result && string.IsNullOrWhiteSpace(petEntity.Picture))
-                    IOUtil.DeleteFile(petEntity.Picture);
+                if (result)
+                    AWSUtil.DeleteFromS3(oldPic.Substring(oldPic.LastIndexOf('/') + 1));
             }
 
             result = petBlo.Update(petEntity);
@@ -124,7 +127,7 @@ namespace PawsWCF.Service
             int petId = int.Parse(id);
             Pet pet = petBlo.Find(petId);
 
-            IOUtil.DeleteFile(pet.Picture);
+            AWSUtil.DeleteFromS3(pet.Picture.Substring(pet.Picture.LastIndexOf('/') + 1));
 
             var response = petBlo.Delete(petId);
             if (response)

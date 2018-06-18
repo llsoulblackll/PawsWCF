@@ -18,12 +18,12 @@ namespace PawsWCF.Util
         {
             private const string S3_BUCKET = "paws-wcf-bucket";
 
-            private static readonly string S3_BUCKET_URL = $"https://{S3_BUCKET}.s3.amazonaws.com/";
+            public static readonly string S3_BUCKET_URL = $"https://{S3_BUCKET}.s3.amazonaws.com/";
 
             //private const string ACCESS_KEY = "AKIAIIPAYTRDS76J42SQ";
             //private const string SECRET_KEY = "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";
 
-            private static readonly RegionEndpoint REGION = RegionEndpoint.USWest2;
+            private static readonly RegionEndpoint REGION = RegionEndpoint.USWest1;
 
             /// <summary>
             /// Uploads file to and AWS S3 bucket
