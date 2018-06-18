@@ -39,25 +39,25 @@ namespace PawsWCF.Service
             int genId = petBlo.Insert(petEntity);
             petEntity.Id = genId;
 
-            bool result = genId > 0;
+            //bool result = genId > 0;
 
             if(!string.IsNullOrWhiteSpace(pet.ImageBase64) && !string.IsNullOrWhiteSpace(pet.ImageExtension))
             {
                 string partialPath = $"{genId}_{pet.Name}_{DateTime.Now.Ticks}.{pet.ImageExtension}";
-                result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
+                bool result = IOUtil.SaveFile(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{UPLOAD_FOLDER}\\{partialPath}")), pet.ImageBase64);
                 petEntity.Picture = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{UPLOAD_FOLDER}/{partialPath}";
 
                 if (result)
                     petBlo.Update(petEntity);
             }
 
-            if (result)
+            if (genId > 0)
             {
                 return new WCFResponse<object>
                 {
                     ResponseCode = WCFResponseCode.Success,
                     ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
-                    Response = result
+                    Response = genId
                 };
             }
             else
@@ -66,7 +66,7 @@ namespace PawsWCF.Service
                 {
                     ResponseCode = WCFResponseCode.Error,
                     ResponseMessage = WCFResponseMessage.WCF_ERROR,
-                    Response = result
+                    Response = genId
                 };
             }
         }
