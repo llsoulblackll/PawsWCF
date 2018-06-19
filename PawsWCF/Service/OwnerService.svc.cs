@@ -9,6 +9,7 @@ using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
 using static PawsWCF.Util.Util;
 using static PawsWCF.WCFConstant.Constant;
+using PawsBussinessLogic.DataTransferObject;
 
 namespace PawsWCF.Service
 {
@@ -289,6 +290,46 @@ namespace PawsWCF.Service
             else
             {
                 return new WCFResponse<OwnerContract>
+                {
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR,
+                    Response = null
+                };
+            }
+        }
+
+        public WCFResponse<OwnerDtoContract> FullLogin(OwnerContract owner)
+        {
+            Owner ownerEntity = new Owner { Username = owner.Username, Password = owner.Password };
+            OwnerDto ownerDto = ownerBlo.FullLogin(ownerEntity);
+
+            if (ownerEntity != null)
+            {
+                return new WCFResponse<OwnerDtoContract>
+                {
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
+                    Response = new OwnerDtoContract
+                    {
+                        Id = ownerDto.Id,
+                        Username = ownerDto.Username,
+                        Password = ownerDto.Password,
+                        Name = ownerDto.Name,
+                        LastName = ownerDto.LastName,
+                        BirthDate = ownerDto.BirthDate,
+                        DNI = ownerDto.DNI,
+                        EMail = ownerDto.EMail,
+                        Address = ownerDto.Address,
+                        PhoneNumber = ownerDto.PhoneNumber,
+                        ProfilePicture = ownerDto.ProfilePicture,
+                        District = ownerDto.District,
+                        Pets = ownerDto.Pets
+                    }
+                };
+            }
+            else
+            {
+                return new WCFResponse<OwnerDtoContract>
                 {
                     ResponseCode = WCFResponseCode.Error,
                     ResponseMessage = WCFResponseMessage.WCF_ERROR,

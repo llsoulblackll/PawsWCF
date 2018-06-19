@@ -19,5 +19,13 @@ namespace PawsWCF.Service
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "Login")]
         WCFResponse<OwnerContract> Login(OwnerContract owner);
+
+        [OperationContract]
+        [WebInvoke(
+            Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "FullLogin")]
+        WCFResponse<OwnerDtoContract> FullLogin(OwnerContract owner);
     }
 }

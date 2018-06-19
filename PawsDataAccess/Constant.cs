@@ -17,6 +17,7 @@ namespace PawsDataAccess
 
         public static class District
         {
+            public const string USP_DISTRICT_FIND = "usp_District_Find";
             public const string USP_DISTRICT_FINDALL = "usp_District_FindAll";
         }
 

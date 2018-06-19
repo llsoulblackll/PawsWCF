@@ -1,4 +1,5 @@
-﻿using PawsDataAccess.DataAccessObject;
+﻿using PawsBussinessLogic.DataTransferObject;
+using PawsDataAccess.DataAccessObject;
 using PawsEntity;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,15 @@ namespace PawsBussinessLogic.BussinessLogicObject
     public class OwnerBlo : IEntityBlo<Owner>
     {
         private IOwnerDao ownerDao;
+        private IDistrictDao districtDao;
+        private IPetDao petDao;
         private IDbConnection conn;
 
         public OwnerBlo()
         {
             ownerDao = DaoFactory.GetOwnerDao();
+            districtDao = DaoFactory.GetDistrictDao();
+            petDao = DaoFactory.GetPetDao();
         }
 
         public int Insert(Owner toInsert)
@@ -125,6 +130,42 @@ namespace PawsBussinessLogic.BussinessLogicObject
                 using (conn = ConnectionFactory.GetOpenConnection())
                 {
                     return ownerDao.Login(owner, conn);
+                }
+            }
+            catch (DbException ex)
+            {
+                throw;
+            }
+            catch (DataException ex)
+            {
+                throw;
+            }
+        }
+
+        public OwnerDto FullLogin(Owner owner)
+        {
+            try
+            {
+                using (IDbConnection conn = ConnectionFactory.GetOpenConnection())
+                {
+                    OwnerDto dto = new OwnerDto();
+                    owner = ownerDao.Login(owner, conn);
+                    dto.Id = owner.Id;
+                    dto.Username = owner.Username;
+                    dto.Password = owner.Password;
+                    dto.Name = owner.Name;
+                    dto.LastName = owner.LastName;
+                    dto.BirthDate = owner.BirthDate;
+                    dto.DNI = owner.DNI;
+                    dto.EMail = owner.EMail;
+                    dto.Address = owner.Address;
+                    dto.PhoneNumber = owner.PhoneNumber;
+                    dto.ProfilePicture = owner.ProfilePicture;
+                    //TEMPORARY, REPLACE LINQ FOR SP
+                    dto.District = districtDao.FindAll(conn).Where(d => d.Id == owner.DistrictId).FirstOrDefault();
+                    dto.Pets = petDao.FindAll(owner.Id, conn);
+
+                    return dto;
                 }
             }
             catch (DbException ex)

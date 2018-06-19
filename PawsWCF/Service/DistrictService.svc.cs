@@ -7,6 +7,7 @@ using System.Text;
 using PawsBussinessLogic.BussinessLogicObject;
 using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
+using PawsEntity;
 
 namespace PawsWCF.Service
 {
@@ -36,7 +37,30 @@ namespace PawsWCF.Service
 
         public WCFResponse<DistrictContract> Find(string id)
         {
-            throw new NotImplementedException();
+            District dis = districtBlo.Find(int.Parse(id));
+
+            if(dis != null)
+            {
+                return new WCFResponse<DistrictContract>
+                {
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS,
+                    Response = new DistrictContract
+                    {
+                        Id = dis.Id,
+                        Name = dis.Name
+                    }
+                };
+            }
+            else
+            {
+                return new WCFResponse<DistrictContract>
+                {
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR,
+                    Response = null
+                };
+            }
         }
 
         public WCFResponse<List<DistrictContract>> FindAll()

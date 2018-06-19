@@ -12,6 +12,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ID_COLUMN = "Id";
         private const string NAME_COLUMN = "Name";
 
+        private const string ID_PARAM = "@id";
+
         IDatabase db;
         //IDbCommand cmd;
         //IDataReader dr;
@@ -38,7 +40,26 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public District Find(object id, IDbConnection conn)
         {
-            throw new NotImplementedException();
+            using (IDbCommand cmd = db.GetStoredProcedureCommand(USP_DISTRICT_FIND, conn))
+            {
+                cmd.Parameters.Add(db.GetParameter(ID_PARAM, id));
+                using (IDataReader dr = cmd.ExecuteReader())
+                {
+                    int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
+                    int NAME_INDEX = dr.GetOrdinal(NAME_COLUMN);
+
+                    District dis = null;
+                    if (dr.Read())
+                    {
+                        dis = new District
+                        {
+                            Id = DaoUtil.ValueOrDefault<int>(ID_INDEX, dr),
+                            Name = DaoUtil.ValueOrDefault<string>(NAME_INDEX, dr)
+                        };
+                    }
+                    return dis;
+                }
+            }
         }
 
         public List<District> FindAll(IDbConnection conn)
