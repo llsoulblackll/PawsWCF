@@ -991,6 +991,16 @@ GO
 
 
 ---DISTRICT
+CREATE PROCEDURE usp_District_Find
+@id INT
+AS
+SELECT Id,
+	   Name
+FROM District
+WHERE Id = @id
+GO
+
+
 CREATE PROCEDURE usp_District_FindAll
 AS
 SELECT Id,

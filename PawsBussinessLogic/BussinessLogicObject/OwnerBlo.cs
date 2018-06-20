@@ -148,8 +148,8 @@ namespace PawsBussinessLogic.BussinessLogicObject
             {
                 using (IDbConnection conn = ConnectionFactory.GetOpenConnection())
                 {
-                    OwnerDto dto = new OwnerDto();
                     owner = ownerDao.Login(owner, conn);
+                    OwnerDto dto = new OwnerDto();
                     dto.Id = owner.Id;
                     dto.Username = owner.Username;
                     dto.Password = owner.Password;
@@ -162,7 +162,8 @@ namespace PawsBussinessLogic.BussinessLogicObject
                     dto.PhoneNumber = owner.PhoneNumber;
                     dto.ProfilePicture = owner.ProfilePicture;
                     //TEMPORARY, REPLACE LINQ FOR SP
-                    dto.District = districtDao.FindAll(conn).Where(d => d.Id == owner.DistrictId).FirstOrDefault();
+                    //dto.District = districtDao.FindAll(conn).Where(d => d.Id == owner.DistrictId).FirstOrDefault();
+                    dto.District = districtDao.Find(owner.Id, conn);
                     dto.Pets = petDao.FindAll(owner.Id, conn);
 
                     return dto;
