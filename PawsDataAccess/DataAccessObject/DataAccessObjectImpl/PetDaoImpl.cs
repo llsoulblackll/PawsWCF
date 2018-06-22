@@ -218,6 +218,24 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 }
             }
         }
+
+        //CHANGE THIS FOR A SPECIALIZED SP
+        public int Count(IDbConnection conn, int ownerId = 0)
+        {
+            using (var cmd = db.GetStoredProcedureCommand(USP_PET_FINDALL, conn))
+            {
+                if (ownerId > 0)
+                    cmd.Parameters.Add(db.GetParameter(ID_PARAM, DaoUtil.ValueOrDbNull(ownerId)));
+                using (var dr = cmd.ExecuteReader())
+                {
+                    int count = 0;
+                    while (dr.Read())
+                        count++;
+
+                    return count;
+                }
+            }
+        }
     }
 }
 

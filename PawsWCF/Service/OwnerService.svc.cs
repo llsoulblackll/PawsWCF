@@ -323,7 +323,9 @@ namespace PawsWCF.Service
                         PhoneNumber = ownerDto.PhoneNumber,
                         ProfilePicture = ownerDto.ProfilePicture,
                         District = ownerDto.District,
-                        Pets = ownerDto.Pets
+                        RegisteredAmount = ownerDto.RegisteredAmount,
+                        AdoptedAmount = ownerDto.AdoptedAmount
+                        //Pets = ownerDto.Pets
                     }
                 };
             }

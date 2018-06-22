@@ -3,8 +3,10 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using PawsWCF.WCFConstant;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +22,8 @@ namespace PawsWCF.Util
 
             public static readonly string S3_BUCKET_URL = $"https://{S3_BUCKET}.s3.amazonaws.com/";
 
+            public static readonly AWSCredentials CREDENTIALS = new BasicAWSCredentials(ConfigurationManager.AppSettings[Constant.AWS_ACCESS_KEY_ID_KEY], ConfigurationManager.AppSettings[Constant.AWS_SECRET_ACCESS_KEY_KEY]);
+
             //private const string ACCESS_KEY = "AKIAIIPAYTRDS76J42SQ";
             //private const string SECRET_KEY = "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";
 
@@ -33,7 +37,7 @@ namespace PawsWCF.Util
             /// <returns>URL of the uploaded object</returns>
             public static string UploadToS3(string objectName, byte[] file)
             {
-                using (var awsClient = new AmazonS3Client(new EnvironmentVariablesAWSCredentials(), REGION))
+                using (var awsClient = new AmazonS3Client(CREDENTIALS, REGION))
                 {
                     ////WE COULD USE THE ASYNC API BUT OUR CLIENT IS ALREADY ASYNC
                     //var putRequest = awsClient.PutObject(new PutObjectRequest
@@ -58,7 +62,7 @@ namespace PawsWCF.Util
 
             public static string UploadToS3(string objectName, string dataAsBase64)
             {
-                using (var awsClient = new AmazonS3Client(new EnvironmentVariablesAWSCredentials(), REGION))
+                using (var awsClient = new AmazonS3Client(CREDENTIALS, REGION))
                 {
                     TransferUtility transferUtility = new TransferUtility(awsClient);
 
@@ -79,7 +83,7 @@ namespace PawsWCF.Util
 
             public static bool DeleteFromS3(string objectName)
             {
-                using (var awsClient = new AmazonS3Client(new EnvironmentVariablesAWSCredentials(), REGION))
+                using (var awsClient = new AmazonS3Client(CREDENTIALS, REGION))
                 {
                     var res = awsClient.DeleteObject(S3_BUCKET, objectName);
                     return true;

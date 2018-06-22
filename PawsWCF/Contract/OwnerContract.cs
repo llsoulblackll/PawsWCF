@@ -21,7 +21,7 @@ namespace PawsWCF.Contract
         [DataMember(Order = 10)]public string PhoneNumber { get; set; }
         [DataMember(Order = 11)]public string ProfilePicture { get; set; }
         [DataMember(Order = 12)]public int DistrictId { get; set; }
-        [DataMember(Order = 13, IsRequired = false, EmitDefaultValue = false)]public string ImageBase64 { get; set; }
+        [DataMember(Order = 13, IsRequired = false, EmitDefaultValue = false)] public string ImageBase64 { get; set; }
         [DataMember(Order = 14, IsRequired = false, EmitDefaultValue = false)] public string ImageExtension { get; set; }
     }
 }

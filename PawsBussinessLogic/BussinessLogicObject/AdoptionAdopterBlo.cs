@@ -120,13 +120,13 @@ namespace PawsBussinessLogic.BussinessLogicObject
             }
         }
 
-        public List<AdoptionAdopter> FindAll(object adoptionId)
+        public List<AdoptionAdopter> FindAll(int adoptionId = 0, int adopterId = 0)
         {
             try
             {
                 using (conn = ConnectionFactory.GetOpenConnection())
                 {
-                    return adoptionAdopterDao.FindAll(adoptionId, conn);
+                    return adoptionAdopterDao.FindAll(conn, adoptionId, adopterId);
                 }
             }
             catch (DbException ex)

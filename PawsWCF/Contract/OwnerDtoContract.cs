@@ -21,6 +21,8 @@ namespace PawsWCF.Contract
         [DataMember(Order = 10)]public string PhoneNumber { get; set; }
         [DataMember(Order = 11)]public string ProfilePicture { get; set; }
         [DataMember(Order = 12)]public District District { get; set; }
-        [DataMember(Order = 13)]public List<Pet> Pets { get; set; }
+        [DataMember(Order = 13)]public int RegisteredAmount { get; set; }
+        [DataMember(Order = 14)] public int AdoptedAmount { get; set; }
+        //[DataMember(Order = 13)]public List<Pet> Pets { get; set; }
     }
 }

@@ -21,6 +21,8 @@ namespace PawsBussinessLogic.DataTransferObject
         public string PhoneNumber { get; set; }
         public string ProfilePicture { get; set; }
         public District District { get; set; }
-        public List<Pet> Pets { get; set; }
+        public int RegisteredAmount { get; set; }
+        public int AdoptedAmount { get; set; }
+        //public List<Pet> Pets { get; set; }
     }
 }

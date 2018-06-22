@@ -738,14 +738,23 @@ WHERE AdoptionId = @adoptionId AND AdopterId = @adopterId
 GO
 
 CREATE PROCEDURE usp_Adoption_Adopter_FindAll
-@adoptionId INT
+@adoptionId INT = 0,
+@adopterId INT = 0
 AS
-SELECT AdoptionId,
-	   AdopterId,
-	   AdoptedQuantity,
-	   AdoptedDate
-FROM Adoption_Adopter
-WHERE AdoptionId = @adoptionId
+IF @adoptionId > 0
+	SELECT AdoptionId,
+		   AdopterId,
+		   AdoptedQuantity,
+		   AdoptedDate
+	FROM Adoption_Adopter
+	WHERE AdoptionId = @adoptionId
+ELSE IF @adopterId > 0
+	SELECT AdoptionId,
+		   AdopterId,
+		   AdoptedQuantity,
+		   AdoptedDate
+	FROM Adoption_Adopter
+	WHERE AdopterId = @adopterId
 GO
 
 ---LOST_PET

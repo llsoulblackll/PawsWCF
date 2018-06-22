@@ -124,12 +124,15 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
             throw new NotImplementedException("Adoption id is required for this method to work, use the overloaded one instead");
         }
 
-        public List<AdoptionAdopter> FindAll(object adoptionId, IDbConnection conn)
+        public List<AdoptionAdopter> FindAll(IDbConnection conn, int adoptionId = 0, int adopterId = 0)
         {
             using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FINDALL, conn))
             {
-                cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(adoptionId)));
-                
+                if(adoptionId > 0)
+                    cmd.Parameters.Add(db.GetParameter(ADOPTION_ID_PARAM, DaoUtil.ValueOrDbNull(adoptionId)));
+                else
+                    cmd.Parameters.Add(db.GetParameter(ADOPTER_ID_PARAM, DaoUtil.ValueOrDbNull(adopterId)));
+
                 using (var dr = cmd.ExecuteReader())
                 {
                     int ADOPTION_ID_INDEX = dr.GetOrdinal(ADOPTION_ID_COLUMN);
@@ -153,6 +156,24 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                     }
 
                     return lAdoptionAdopter;
+                }
+            }
+        }
+
+        public int Count(IDbConnection conn, int ownerId = 0)
+        {
+            using (var cmd = db.GetStoredProcedureCommand(USP_ADOPTION_ADOPTER_FINDALL, conn))
+            {
+                if (ownerId > 0)
+                    cmd.Parameters.Add(db.GetParameter(ADOPTER_ID_PARAM, DaoUtil.ValueOrDbNull(ownerId)));
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    int count = 0;
+                    while (dr.Read())
+                        count++;
+
+                    return count;
                 }
             }
         }

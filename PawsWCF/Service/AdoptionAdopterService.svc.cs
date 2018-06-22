@@ -104,7 +104,7 @@ namespace PawsWCF.Service
 
         public WCFResponse<List<AdoptionAdopterContract>> FindAll(string adoptionId)
         {
-            var adoptionAdopters = adoptionAdopterBlo.FindAll();
+            var adoptionAdopters = adoptionAdopterBlo.FindAll(int.Parse(adoptionId));
 
             if (adoptionAdopters != null)
             {
