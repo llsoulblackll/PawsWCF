@@ -30,6 +30,9 @@ namespace PawsWCF.Service
                 Age = pet.Age,
                 Description = pet.Description,
                 Picture = pet.Picture,
+                PublishDate = pet.PublishDate,
+                State = pet.State,
+                OtherRace = pet.OtherRace,
                 SpecieId = pet.SpecieId,
                 RaceId = pet.RaceId,
                 OwnerId = pet.OwnerId
@@ -81,6 +84,9 @@ namespace PawsWCF.Service
                 Age = pet.Age,
                 Description = pet.Description,
                 Picture = pet.Picture,
+                PublishDate = pet.PublishDate,
+                State = pet.State,
+                OtherRace = pet.OtherRace,
                 SpecieId = pet.SpecieId,
                 RaceId = pet.RaceId,
                 OwnerId = pet.OwnerId
@@ -164,6 +170,9 @@ namespace PawsWCF.Service
                     Age = petEntity.Age,
                     Description = petEntity.Description,
                     Picture = petEntity.Picture,
+                    PublishDate = petEntity.PublishDate,
+                    State = petEntity.State,
+                    OtherRace = petEntity.OtherRace,
                     SpecieId = petEntity.SpecieId,
                     RaceId = petEntity.RaceId,
                     OwnerId = petEntity.OwnerId
@@ -198,6 +207,9 @@ namespace PawsWCF.Service
                     Age = p.Age,
                     Description = p.Description,
                     Picture = p.Picture,
+                    PublishDate = p.PublishDate,
+                    State = p.State,
+                    OtherRace = p.OtherRace,
                     SpecieId = p.SpecieId,
                     RaceId = p.RaceId,
                     OwnerId = p.OwnerId
@@ -222,6 +234,9 @@ namespace PawsWCF.Service
                         Age = p.Age,
                         Description = p.Description,
                         Picture = p.Picture,
+                        PublishDate = p.PublishDate,
+                        State = p.State,
+                        OtherRace = p.OtherRace,
                         SpecieId = p.SpecieId,
                         RaceId = p.RaceId,
                         OwnerId = p.OwnerId

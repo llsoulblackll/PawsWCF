@@ -99,13 +99,16 @@ CREATE TABLE Pet
 	Age VARCHAR(100), --HOW TO REPRESENT MONTHS. SINCE WE CAN'T DO IT PROPERLY WITH DECIMALS USE STRINGS
 	Description VARCHAR(MAX),
 	Picture VARCHAR(MAX),
+	PublishDate DATETIME,
+	State BIT,
+	OtherRace VARCHAR(300),
 	SpecieId INT CONSTRAINT FK_Pet_Specie FOREIGN KEY REFERENCES Specie(Id),
 	RaceId INT CONSTRAINT FK_Pet_Race FOREIGN KEY REFERENCES Race(Id),
 	OwnerId INT CONSTRAINT FK_Pet_Owner FOREIGN KEY REFERENCES Owner(Id)
 )
 GO
 
-CREATE TABLE Adoption
+/*CREATE TABLE Adoption
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	State BIT,
@@ -139,7 +142,7 @@ CREATE TABLE Adoption_Adopter--SEVERAL ADOPTERS PER ADOPTION
 	AdoptedQuantity INT,
 	AdoptedDate DATETIME,
 	PRIMARY KEY (AdoptionId, AdopterId)
-)
+)*/
 
 CREATE TABLE Lost_Pet
 (
@@ -159,7 +162,15 @@ CREATE TABLE Lost_Pet
 )
 GO
 
-CREATE TABLE Found_Pet--WHEN YOU FIND A PET, YOU CAN'T KNOW IF IT'S REGISTERED SO MORE COLUMNS ARE NEEDED ON THIS TABLE
+CREATE TABLE Auth
+(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Token VARCHAR(MAX) UNIQUE,
+	CreatedAt DATETIME
+)
+GO
+
+/*CREATE TABLE Found_Pet--WHEN YOU FIND A PET, YOU CAN'T KNOW IF IT'S REGISTERED SO MORE COLUMNS ARE NEEDED ON THIS TABLE
 (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	State BIT,--0 FOUND 1 DELIVERED
@@ -174,7 +185,7 @@ CREATE TABLE Found_Pet--WHEN YOU FIND A PET, YOU CAN'T KNOW IF IT'S REGISTERED S
 	FoundById INT FOREIGN KEY REFERENCES Owner(Id), --FOUND BY
 	DeliveredToId INT FOREIGN KEY REFERENCES Owner(Id) DEFAULT NULL
 )
-GO
+GO*/
 
 EXEC SP_TABLES '%', 'dbo'
 
@@ -416,6 +427,9 @@ CREATE PROCEDURE usp_Pet_Insert
 @age VARCHAR(100),
 @desc VARCHAR(MAX),
 @picture VARCHAR(MAX),
+@pubDate DATETIME,
+@state BIT,
+@otherRace VARCHAR(300),
 @specieId INT,
 @raceId INT,
 @ownerId INT,
@@ -427,6 +441,9 @@ BEGIN
 					 Age,
 					 Description,
 					 Picture,
+					 PublishDate,
+					 State,
+					 OtherRace,
 					 SpecieId,
 					 RaceId,
 					 OwnerId)
@@ -434,6 +451,9 @@ BEGIN
 					 @age,
 					 @desc,
 					 @picture,
+					 @pubDate,
+					 @state,
+					 @otherRace,
 					 @specieId,
 					 @raceId,
 					 @ownerId)
@@ -447,6 +467,9 @@ CREATE PROCEDURE usp_Pet_Update
 @age VARCHAR(100),
 @desc VARCHAR(MAX),
 @picture VARCHAR(MAX),
+@pubDate DATETIME,
+@state BIT,
+@otherRace VARCHAR(300),
 @specieId INT,
 @raceId INT,
 @ownerId INT,
@@ -458,6 +481,9 @@ BEGIN
 				   Age = @age,
 				   Description = @desc,
 				   Picture = @picture,
+				   PublishDate = @pubDate,
+				   State = @state,
+				   OtherRace = @otherRace,
 				   SpecieId = @specieId,
 				   RaceId = @raceId,
 				   OwnerId = @ownerId
@@ -473,7 +499,7 @@ AS
 BEGIN TRY
 	BEGIN TRANSACTION
 		--DELETE FROM Adoption WHERE PetId = @id
-		DELETE FROM Adoption_Pet WHERE PetId = @id
+		--DELETE FROM Adoption_Pet WHERE PetId = @id
 		DELETE FROM Lost_Pet WHERE PetId = @id
 		DELETE FROM Pet WHERE Id = @id
 		SET @rowCount = @@ROWCOUNT
@@ -494,6 +520,9 @@ SELECT Id,
 	   Age,
 	   Description,
 	   Picture,
+	   PublishDate,
+	   State,
+	   OtherRace,
 	   SpecieId,
 	   RaceId,
 	   OwnerId
@@ -511,6 +540,9 @@ IF @id < 0
 		   Age,
 		   Description,
 		   Picture,
+		   PublishDate,
+		   State,
+		   OtherRace,
 		   SpecieId,
 		   RaceId,
 		   OwnerId
@@ -522,6 +554,9 @@ ELSE
 		   Age,
 		   Description,
 		   Picture,
+		   PublishDate,
+	       State,
+	       OtherRace,
 		   SpecieId,
 		   RaceId,
 		   OwnerId
@@ -530,7 +565,7 @@ GO
 
 ---ADOPTION
 
-EXEC SP_HELP Adoption
+/*EXEC SP_HELP Adoption
 GO
 
 CREATE PROCEDURE usp_Adoption_Insert
@@ -755,7 +790,7 @@ ELSE IF @adopterId > 0
 		   AdoptedDate
 	FROM Adoption_Adopter
 	WHERE AdopterId = @adopterId
-GO
+GO*/
 
 ---LOST_PET
 
@@ -873,7 +908,7 @@ GO
 
 ---FOUND_PET
 
-EXEC SP_HELP Found_Pet
+/*EXEC SP_HELP Found_Pet
 GO
 
 CREATE PROCEDURE usp_Found_Pet_Insert
@@ -976,7 +1011,7 @@ SELECT Id,
 	   FoundById,
 	   DeliveredToId
 FROM Found_Pet
-GO
+GO*/
 
 ---SPECIE 
 CREATE PROCEDURE usp_Specie_FindAll
@@ -1017,7 +1052,28 @@ SELECT Id,
 FROM District
 GO
 
+---AUTH
 
+CREATE PROCEDURE usp_Auth_Insert
+@token VARCHAR(MAX),
+@createdAt DATETIME
+AS
+INSERT INTO Auth (Token, CreatedAt)
+		VALUES (@token, @createdAt)
+GO
 
+CREATE PROCEDURE usp_Auth_Delete
+@id INT
+AS
+DELETE FROM Auth
+WHERE Id = @id
+GO
+
+CREATE PROCEDURE usp_Auth_Find
+@token VARCHAR(MAX)
+AS
+IF (SELECT COUNT(*) FROM Auth WHERE Token = @token) > 0 --AND DATEDIFF(DAY, GETDATE(), createdAt) > 30)
+	SELECT Id, Token, CreatedAt FROM Auth WHERE Token = @token
+GO
 
 

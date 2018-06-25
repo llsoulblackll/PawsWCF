@@ -53,6 +53,7 @@
     <Compile Include="DataAccessObject\DataAccessObjectImpl\SpecieDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\SurveyDaoImpl.cs" />
     <Compile Include="DataAccessObject\IAdoptionPetDao.cs" />
+    <Compile Include="DataAccessObject\IAuthDao.cs" />
     <Compile Include="DataAccessObject\IDistrictDao.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\OwnerDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\PetDaoImpl.cs" />

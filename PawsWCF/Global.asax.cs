@@ -22,6 +22,12 @@ namespace PawsWCF
                 HttpContext.Current.Response.End();
                 //HttpContext.Current.Response.Close();
             }
+
+            string token = HttpContext.Current.Request.Params["token"];
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+
+            }
         }
     }
 }

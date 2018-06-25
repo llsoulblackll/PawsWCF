@@ -14,6 +14,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string AGE_COLUMN = "Age";
         private const string DESCRIPTION_COLUMN = "Description";
         private const string PICTURE_COLUMN = "Picture";
+        private const string PUBLISH_DATE_COLUMN = "PublishDate";
+        private const string STATE_COLUMN = "State";
+        private const string OTHER_RACE_COLUMN = "OtherRace";
         private const string SPECIE_ID_COLUMN = "SpecieId";
         private const string RACE_ID_COLUMN = "RaceId";
         private const string OWNER_ID_COLUMN = "OwnerId";
@@ -23,6 +26,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string AGE_PARAM = "@age";
         private const string DESCRIPTION_PARAM = "@desc";
         private const string PICTURE_PARAM = "@picture";
+        private const string PUBLISH_DATE_PARAM = "@pubDate";
+        private const string STATE_PARAM = "@state";
+        private const string OTHER_RACE_PARAM = "@otherRace";
         private const string SPECIE_ID_PARAM = "@specieId";
         private const string RACE_ID_PARAM = "@raceId";
         private const string OWNER_ID_PARAM = "@ownerId";
@@ -48,6 +54,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 command.Parameters.Add(db.GetParameter(AGE_PARAM, DaoUtil.ValueOrDbNull(toInsert.Age)));
                 command.Parameters.Add(db.GetParameter(DESCRIPTION_PARAM, DaoUtil.ValueOrDbNull(toInsert.Description)));
                 command.Parameters.Add(db.GetParameter(PICTURE_PARAM, DaoUtil.ValueOrDbNull(toInsert.Picture)));
+                command.Parameters.Add(db.GetParameter(PUBLISH_DATE_PARAM, DaoUtil.ValueOrDbNull(toInsert.PublishDate)));
+                command.Parameters.Add(db.GetParameter(STATE_PARAM, DaoUtil.ValueOrDbNull(toInsert.State)));
+                command.Parameters.Add(db.GetParameter(OTHER_RACE_PARAM, DaoUtil.ValueOrDbNull(toInsert.OtherRace)));
                 command.Parameters.Add(db.GetParameter(SPECIE_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.SpecieId)));
                 command.Parameters.Add(db.GetParameter(RACE_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.RaceId)));
                 command.Parameters.Add(db.GetParameter(OWNER_ID_PARAM, DaoUtil.ValueOrDbNull(toInsert.OwnerId)));
@@ -72,6 +81,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 command.Parameters.Add(db.GetParameter(AGE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Age)));
                 command.Parameters.Add(db.GetParameter(DESCRIPTION_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Description)));
                 command.Parameters.Add(db.GetParameter(PICTURE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.Picture)));
+                command.Parameters.Add(db.GetParameter(PUBLISH_DATE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.PublishDate)));
+                command.Parameters.Add(db.GetParameter(STATE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.State)));
+                command.Parameters.Add(db.GetParameter(OTHER_RACE_PARAM, DaoUtil.ValueOrDbNull(toUpdate.OtherRace)));
                 command.Parameters.Add(db.GetParameter(SPECIE_ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.SpecieId)));
                 command.Parameters.Add(db.GetParameter(RACE_ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.RaceId)));
                 command.Parameters.Add(db.GetParameter(OWNER_ID_PARAM, DaoUtil.ValueOrDbNull(toUpdate.OwnerId)));
@@ -111,6 +123,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                     int AGE_INDEX = dataReader.GetOrdinal(AGE_COLUMN);
                     int DESCRIPTION_INDEX = dataReader.GetOrdinal(DESCRIPTION_COLUMN);
                     int PICTURE_INDEX = dataReader.GetOrdinal(PICTURE_COLUMN);
+                    int PUBLISH_DATE_INDEX = dataReader.GetOrdinal(PUBLISH_DATE_COLUMN);
+                    int STATE_INDEX = dataReader.GetOrdinal(STATE_COLUMN);
+                    int OTHER_RACE_INDEX = dataReader.GetOrdinal(OTHER_RACE_COLUMN);
                     int SPECIE_ID_INDEX = dataReader.GetOrdinal(SPECIE_ID_COLUMN);
                     int RACE_ID_INDEX = dataReader.GetOrdinal(RACE_ID_COLUMN);
                     int OWNER_ID_INDEX = dataReader.GetOrdinal(OWNER_ID_COLUMN);
@@ -132,6 +147,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                             Age = DaoUtil.ValueOrDefault<string>(AGE_INDEX, dataReader),
                             Description = DaoUtil.ValueOrDefault<string>(DESCRIPTION_INDEX, dataReader),
                             Picture = DaoUtil.ValueOrDefault<string>(PICTURE_INDEX, dataReader),
+                            PublishDate = DaoUtil.ValueOrDefault<DateTime>(PUBLISH_DATE_INDEX, dataReader),
+                            State = DaoUtil.ValueOrDefault<bool>(STATE_INDEX, dataReader),
+                            OtherRace = DaoUtil.ValueOrDefault<string>(OTHER_RACE_INDEX, dataReader),
                             SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dataReader),
                             RaceId = DaoUtil.ValueOrDefault<int>(RACE_ID_INDEX, dataReader),
                             OwnerId = DaoUtil.ValueOrDefault<int>(OWNER_ID_INDEX, dataReader)
@@ -154,6 +172,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                 int AGE_INDEX = dataReader.GetOrdinal(AGE_COLUMN);
                 int DESCRIPTION_INDEX = dataReader.GetOrdinal(DESCRIPTION_COLUMN);
                 int PICTURE_INDEX = dataReader.GetOrdinal(PICTURE_COLUMN);
+                int PUBLISH_DATE_INDEX = dataReader.GetOrdinal(PUBLISH_DATE_COLUMN);
+                int STATE_INDEX = dataReader.GetOrdinal(STATE_COLUMN);
+                int OTHER_RACE_INDEX = dataReader.GetOrdinal(OTHER_RACE_COLUMN);
                 int SPECIE_ID_INDEX = dataReader.GetOrdinal(SPECIE_ID_COLUMN);
                 int RACE_ID_INDEX = dataReader.GetOrdinal(RACE_ID_COLUMN);
                 int OWNER_ID_INDEX = dataReader.GetOrdinal(OWNER_ID_COLUMN);
@@ -169,6 +190,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                         Age = DaoUtil.ValueOrDefault<string>(AGE_INDEX, dataReader),
                         Description = DaoUtil.ValueOrDefault<string>(DESCRIPTION_INDEX, dataReader),
                         Picture = DaoUtil.ValueOrDefault<string>(PICTURE_INDEX, dataReader),
+                        PublishDate = DaoUtil.ValueOrDefault<DateTime>(PUBLISH_DATE_INDEX, dataReader),
+                        State = DaoUtil.ValueOrDefault<bool>(STATE_INDEX, dataReader),
+                        OtherRace = DaoUtil.ValueOrDefault<string>(OTHER_RACE_INDEX, dataReader),
                         SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dataReader),
                         RaceId = DaoUtil.ValueOrDefault<int>(RACE_ID_INDEX, dataReader),
                         OwnerId = DaoUtil.ValueOrDefault<int>(OWNER_ID_INDEX, dataReader)
@@ -192,6 +216,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                     int AGE_INDEX = dataReader.GetOrdinal(AGE_COLUMN);
                     int DESCRIPTION_INDEX = dataReader.GetOrdinal(DESCRIPTION_COLUMN);
                     int PICTURE_INDEX = dataReader.GetOrdinal(PICTURE_COLUMN);
+                    int PUBLISH_DATE_INDEX = dataReader.GetOrdinal(PUBLISH_DATE_COLUMN);
+                    int STATE_INDEX = dataReader.GetOrdinal(STATE_COLUMN);
+                    int OTHER_RACE_INDEX = dataReader.GetOrdinal(OTHER_RACE_COLUMN);
                     int SPECIE_ID_INDEX = dataReader.GetOrdinal(SPECIE_ID_COLUMN);
                     int RACE_ID_INDEX = dataReader.GetOrdinal(RACE_ID_COLUMN);
                     int OWNER_ID_INDEX = dataReader.GetOrdinal(OWNER_ID_COLUMN);
@@ -207,6 +234,9 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
                             Age = DaoUtil.ValueOrDefault<string>(AGE_INDEX, dataReader),
                             Description = DaoUtil.ValueOrDefault<string>(DESCRIPTION_INDEX, dataReader),
                             Picture = DaoUtil.ValueOrDefault<string>(PICTURE_INDEX, dataReader),
+                            PublishDate = DaoUtil.ValueOrDefault<DateTime>(PUBLISH_DATE_INDEX, dataReader),
+                            State = DaoUtil.ValueOrDefault<bool>(STATE_INDEX, dataReader),
+                            OtherRace = DaoUtil.ValueOrDefault<string>(OTHER_RACE_INDEX, dataReader),
                             SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dataReader),
                             RaceId = DaoUtil.ValueOrDefault<int>(RACE_ID_INDEX, dataReader),
                             OwnerId = DaoUtil.ValueOrDefault<int>(OWNER_ID_INDEX, dataReader)

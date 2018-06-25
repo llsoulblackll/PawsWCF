@@ -43,6 +43,7 @@
     <Compile Include="Adoption.cs" />
     <Compile Include="AdoptionAdopter.cs" />
     <Compile Include="AdoptionPet.cs" />
+    <Compile Include="Auth.cs" />
     <Compile Include="District.cs" />
     <Compile Include="FoundPet.cs" />
     <Compile Include="LostPet.cs" />
