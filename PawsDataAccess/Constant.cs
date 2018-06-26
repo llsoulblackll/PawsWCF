@@ -88,5 +88,13 @@ namespace PawsDataAccess
             public const string USP_FOUND_PET_FIND = "usp_Found_Pet_Find";
             public const string USP_FOUND_PET_FINDALL = "usp_Found_Pet_FindAll";
         }
+
+
+        public static class Auth
+        {
+            public const string USP_AUTH_INSER = "usp_Auth_Insert";
+            public const string USP_AUTH_DELETE = "usp_Auth_Delete";
+            public const string USP_AUTH_FIND = "usp_Auth_Find";
+        }
     }
 }
