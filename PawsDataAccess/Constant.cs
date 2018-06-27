@@ -92,7 +92,7 @@ namespace PawsDataAccess
 
         public static class Auth
         {
-            public const string USP_AUTH_INSER = "usp_Auth_Insert";
+            public const string USP_AUTH_INSERT = "usp_Auth_Insert";
             public const string USP_AUTH_DELETE = "usp_Auth_Delete";
             public const string USP_AUTH_FIND = "usp_Auth_Find";
         }

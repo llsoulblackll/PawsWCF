@@ -167,7 +167,7 @@ namespace PawsBussinessLogic.BussinessLogicObject
                     //dto.District = districtDao.FindAll(conn).Where(d => d.Id == owner.DistrictId).FirstOrDefault();
                     ownerDto.District = districtDao.Find(ownerDto.Id, conn);
                     ownerDto.RegisteredAmount = petDao.Count(conn, ownerDto.Id);
-                    ownerDto.AdoptedAmount = adoptionAdopterDao.Count(conn, ownerDto.Id);
+                    ownerDto.AdoptedAmount = 0;//adoptionAdopterDao.Count(conn, ownerDto.Id);
                     //dto.Pets = petDao.FindAll(owner.Id, conn);
 
                     return ownerDto;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using PawsDataAccess.Database;
 using PawsEntity;
+using static PawsDataAccess.Constant.Auth;
 
 namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 {
@@ -22,7 +23,10 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public bool Delete(object id, IDbConnection conn)
         {
-            throw new NotImplementedException();
+            using (IDbCommand cmd = db.GetStoredProcedureCommand(USP_AUTH_INSERT, conn))
+            {
+                throw new Exception();
+            }
         }
 
         public Auth Find(object id, IDbConnection conn)

@@ -46,6 +46,7 @@
     <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionAdopterDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\AdoptionPetDaoImpl.cs" />
+    <Compile Include="DataAccessObject\DataAccessObjectImpl\AuthDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\DistrictDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\FoundPetDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\LostPetDaoImpl.cs" />
