@@ -14,5 +14,19 @@ namespace PawsWCF.Service
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "FindAll/{ownerId}")]
         WCFResponse<List<PetContract>> FindAll(string ownerId);
+
+        [OperationContract(
+            Name = "FindAllPetsDto")]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "FindAll")]
+        WCFResponse<List<PetDtoContract>> FindAllDto();
+
+        [OperationContract(
+            Name = "FindAllPetsDto")]
+        [WebGet(
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "FindAll/{ownerId}")]
+        WCFResponse<List<PetDtoContract>> FindAllDto(string ownerId);
     }
 }

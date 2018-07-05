@@ -9,6 +9,7 @@ using PawsWCF.Contract;
 using PawsWCF.WCFConstant;
 using static PawsWCF.WCFConstant.Constant;
 using static PawsWCF.Util.Util;
+using PawsBussinessLogic.DataTransferObject;
 
 namespace PawsWCF.Service
 {
@@ -31,7 +32,7 @@ namespace PawsWCF.Service
                 Description = pet.Description,
                 Picture = pet.Picture,
                 PublishDate = pet.PublishDate,
-                State = pet.State,
+                State = true,
                 OtherRace = pet.OtherRace,
                 SpecieId = pet.SpecieId,
                 RaceId = pet.RaceId,
@@ -248,6 +249,84 @@ namespace PawsWCF.Service
             else
             {
                 return new WCFResponse<List<PetContract>>
+                {
+                    Response = null,
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR
+                };
+            }
+        }
+
+        public WCFResponse<List<PetDtoContract>> FindAllDto()
+        {
+            List<PetDto> pets = petBlo.FindAllDto();
+            if(pets != null)
+            {
+                return new WCFResponse<List<PetDtoContract>>
+                {
+                    Response = pets.Select(p =>
+                    {
+                        return new PetDtoContract
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Age = p.Age,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            PublishDate = p.PublishDate,
+                            State = p.State,
+                            OtherRace = p.OtherRace,
+                            Specie = p.Specie,
+                            Race = p.Race,
+                            Owner = p.Owner
+                        };
+                    }).ToList(),
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS
+                };
+            }
+            else
+            {
+                return new WCFResponse<List<PetDtoContract>>
+                {
+                    Response = null,
+                    ResponseCode = WCFResponseCode.Error,
+                    ResponseMessage = WCFResponseMessage.WCF_ERROR
+                };
+            }
+        }
+
+        public WCFResponse<List<PetDtoContract>> FindAllDto(string ownerId)
+        {
+            List<PetDto> pets = petBlo.FindAllDto(int.Parse(ownerId));
+            if (pets != null)
+            {
+                return new WCFResponse<List<PetDtoContract>>
+                {
+                    Response = pets.Select(p =>
+                    {
+                        return new PetDtoContract
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Age = p.Age,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            PublishDate = p.PublishDate,
+                            State = p.State,
+                            OtherRace = p.OtherRace,
+                            Specie = p.Specie,
+                            Race = p.Race,
+                            Owner = p.Owner
+                        };
+                    }).ToList(),
+                    ResponseCode = WCFResponseCode.Success,
+                    ResponseMessage = WCFResponseMessage.WCF_SUCCESS
+                };
+            }
+            else
+            {
+                return new WCFResponse<List<PetDtoContract>>
                 {
                     Response = null,
                     ResponseCode = WCFResponseCode.Error,

@@ -13,6 +13,7 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string NAME_COLUMN = "Name";
         private const string SPECIE_ID_COLUM = "SpecieId";
 
+        private const string ID_PARAM = "@id";
         private const string SPECIE_ID_PARAM = "@specieId";
 
         IDatabase db;
@@ -41,7 +42,30 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Race Find(object id, IDbConnection conn)
         {
-            throw new NotImplementedException();
+            using (var cmd = db.GetStoredProcedureCommand(USP_RACE_FIND, conn))
+            {
+                cmd.Parameters.Add(db.GetParameter(ID_PARAM, id));
+                using (var dr = cmd.ExecuteReader())
+                {
+                    int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
+                    int NAME_INDEX = dr.GetOrdinal(NAME_COLUMN);
+                    int SPECIE_ID_INDEX = dr.GetOrdinal(SPECIE_ID_COLUM);
+
+                    Race race = null;
+
+                    if (dr.Read())
+                    {
+                        race = new Race
+                        {
+                            Id = DaoUtil.ValueOrDefault<int>(ID_INDEX, dr),
+                            Name = DaoUtil.ValueOrDefault<string>(NAME_INDEX, dr),
+                            SpecieId = DaoUtil.ValueOrDefault<int>(SPECIE_ID_INDEX, dr)
+                        };
+                    }
+
+                    return race;
+                }
+            }
         }
 
         public List<Race> FindAll(IDbConnection conn)

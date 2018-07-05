@@ -12,6 +12,7 @@ namespace PawsDataAccess
 
         public static class Race
         {
+            public const string USP_RACE_FIND = "usp_Race_Find";
             public const string USP_RACE_FINDALL = "usp_Race_FindAll";
         }
 

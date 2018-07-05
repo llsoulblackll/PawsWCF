@@ -643,6 +643,16 @@ FROM Specie
 GO
 
 ---RACE
+CREATE PROCEDURE usp_Race_Find
+@id INT
+AS
+SELECT Id,
+	   Name,
+	   SpecieId
+FROM Race
+WHERE Id = @id
+GO
+
 CREATE PROCEDURE usp_Race_FindAll
 @specieId INT
 AS
