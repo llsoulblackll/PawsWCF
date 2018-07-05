@@ -489,7 +489,7 @@ GO
 CREATE PROCEDURE usp_Pet_FindAll
 @id INT = 0
 AS
-IF @id < 0
+IF @id > 0
 	SELECT Id,
 		   Name,
 		   Age,
@@ -635,6 +635,15 @@ GO
 
 
 ---SPECIE 
+CREATE PROCEDURE usp_Specie_Find
+@id INT
+AS
+SELECT Id,
+	   Name
+FROM Specie
+WHERE Id = @id
+GO
+
 CREATE PROCEDURE usp_Specie_FindAll
 AS
 SELECT Id,

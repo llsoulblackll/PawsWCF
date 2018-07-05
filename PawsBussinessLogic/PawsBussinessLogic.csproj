@@ -44,6 +44,7 @@
     <Compile Include="BussinessLogicObject\AdoptionAdopterBlo.cs" />
     <Compile Include="BussinessLogicObject\AdoptionBlo.cs" />
     <Compile Include="BussinessLogicObject\AdoptionPetBlo.cs" />
+    <Compile Include="BussinessLogicObject\AuthBlo.cs" />
     <Compile Include="BussinessLogicObject\BloFactory.cs" />
     <Compile Include="BussinessLogicObject\DistrictBlo.cs" />
     <Compile Include="BussinessLogicObject\FoundPetBlo.cs" />

@@ -7,6 +7,7 @@ namespace PawsDataAccess
 
         public static class Specie
         {
+            public const string USP_SPECIE_FIND = "usp_Specie_Find";
             public const string USP_SPECIE_FINDALL = "usp_Specie_FindAll";
         }
 

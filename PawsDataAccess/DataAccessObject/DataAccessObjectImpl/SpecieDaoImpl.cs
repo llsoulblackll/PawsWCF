@@ -12,6 +12,8 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
         private const string ID_COLUMN = "Id";
         private const string NAME_COLUMN = "Name";
 
+        private const string ID_PARAM = "@id";
+
         IDatabase db;
         //IDbCommand cmd;
         //IDataReader dr;
@@ -38,7 +40,27 @@ namespace PawsDataAccess.DataAccessObject.DataAccessObjectImpl
 
         public Specie Find(object id, IDbConnection conn)
         {
-            throw new NotImplementedException();
+            using (var cmd = db.GetStoredProcedureCommand(USP_SPECIE_FIND, conn))
+            {
+                cmd.Parameters.Add(db.GetParameter(ID_PARAM, id));
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    int ID_INDEX = dr.GetOrdinal(ID_COLUMN);
+                    int NAME_INDEX = dr.GetOrdinal(NAME_COLUMN);
+
+                    Specie spe = null;
+                    if (dr.Read())
+                    {
+                        spe = new Specie
+                        {
+                            Id = DaoUtil.ValueOrDefault<int>(ID_INDEX, dr),
+                            Name = DaoUtil.ValueOrDefault<string>(NAME_INDEX, dr)
+                        };
+                    }
+                    return spe;
+                }
+            }
         }
 
         public List<Specie> FindAll(IDbConnection conn)
