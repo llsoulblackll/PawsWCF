@@ -95,6 +95,7 @@
     <Compile Include="Contract\OwnerContract.cs" />
     <Compile Include="Contract\OwnerDtoContract.cs" />
     <Compile Include="Contract\PetContract.cs" />
+    <Compile Include="Contract\PetDtoContract.cs" />
     <Compile Include="Contract\RaceContract.cs" />
     <Compile Include="Contract\SpecieContract.cs" />
     <Compile Include="Contract\SurveyContract.cs" />
