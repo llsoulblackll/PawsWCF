@@ -165,7 +165,7 @@ namespace PawsBussinessLogic.BussinessLogicObject
                     ownerDto.ProfilePicture = owner.ProfilePicture;
                     //TEMPORARY, REPLACE LINQ FOR SP
                     //dto.District = districtDao.FindAll(conn).Where(d => d.Id == owner.DistrictId).FirstOrDefault();
-                    ownerDto.District = districtDao.Find(ownerDto.Id, conn);
+                    ownerDto.District = districtDao.Find(owner.DistrictId, conn);
                     ownerDto.RegisteredAmount = petDao.Count(conn, ownerDto.Id);
                     ownerDto.AdoptedAmount = 0;//adoptionAdopterDao.Count(conn, ownerDto.Id);
                     //dto.Pets = petDao.FindAll(owner.Id, conn);

@@ -49,6 +49,7 @@
     <Compile Include="LostPet.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="Pet.cs" />
+    <Compile Include="PetAdopter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Race.cs" />
     <Compile Include="Specie.cs" />

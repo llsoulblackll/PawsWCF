@@ -50,6 +50,7 @@
     <Compile Include="DataAccessObject\DataAccessObjectImpl\DistrictDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\FoundPetDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\LostPetDaoImpl.cs" />
+    <Compile Include="DataAccessObject\DataAccessObjectImpl\PetAdopterDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\RaceDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\SpecieDaoImpl.cs" />
     <Compile Include="DataAccessObject\DataAccessObjectImpl\SurveyDaoImpl.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DataAccessObject\IFoundPetDao.cs" />
     <Compile Include="DataAccessObject\ILostPetDao.cs" />
     <Compile Include="DataAccessObject\IOwnerDao.cs" />
+    <Compile Include="DataAccessObject\IPetAdopterDao.cs" />
     <Compile Include="DataAccessObject\IPetDao.cs" />
     <Compile Include="DataAccessObject\IRaceDao.cs" />
     <Compile Include="DataAccessObject\ISpecieDao.cs" />

@@ -57,5 +57,7 @@ namespace PawsBussinessLogic.BussinessLogicObject
         {
             return new FoundPetBlo();
         }
+
+        public static PetAdopterBlo GetPetAdopterBlo() => new PetAdopterBlo();
     }
 }

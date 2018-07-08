@@ -51,6 +51,7 @@
     <Compile Include="BussinessLogicObject\IEntityBlo.cs" />
     <Compile Include="BussinessLogicObject\LostPetBlo.cs" />
     <Compile Include="BussinessLogicObject\OwnerBlo.cs" />
+    <Compile Include="BussinessLogicObject\PetAdopterBlo.cs" />
     <Compile Include="BussinessLogicObject\PetBlo.cs" />
     <Compile Include="BussinessLogicObject\RaceBlo.cs" />
     <Compile Include="BussinessLogicObject\SpecieBlo.cs" />

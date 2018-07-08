@@ -114,6 +114,16 @@ CREATE TABLE Pet
 )
 GO
 
+CREATE TABLE Pet_Adopter--SEVERAL ADOPTERS PER ADOPTION
+(
+	PetId INT FOREIGN KEY REFERENCES Pet(Id),
+	AdopterId INT FOREIGN KEY REFERENCES Owner(Id),
+	RequestDate DATETIME,
+	ResponseDate DATETIME,
+	State BIT
+	PRIMARY KEY (AdoptionId, AdopterId)
+)
+GO
 
 CREATE TABLE Lost_Pet
 (
@@ -715,3 +725,74 @@ AS
 --IF (SELECT COUNT(*) FROM Auth WHERE Token = @token) > 0 --AND DATEDIFF(DAY, GETDATE(), createdAt) > 30)
 	SELECT Id, Token, CreatedAt FROM Auth WHERE Token = @token
 GO
+
+
+CREATE PROCEDURE usp_PetAdopter_Insert
+@petId INT,
+@adopterId INT,
+@reqDate DATETIME,
+@resDate DATETIME,
+@state BIT
+AS
+INSERT INTO PetAdopter (PetId,
+						AdopterId,
+						RequestDate,
+						ResponseDate,
+						State)
+			VALUES (@petId,
+					@adopterId,
+					@reqDate,
+					@resDate,
+					@state)
+GO
+
+CREATE PROCEDURE usp_PetAdopter_Update
+@petId INT,
+@adopterId INT,
+@reqDate DATETIME,
+@resDate DATETIME,
+@state BIT
+AS
+INSERT INTO PetAdopter (PetId,
+						AdopterId,
+						RequestDate,
+						ResponseDate,
+						State)
+			VALUES (@petId,
+					@adopterId,
+					@reqDate,
+					@resDate,
+					@state)
+GO
+
+CREATE PROCEDURE usp_PetAdopter_Find
+@petId INT,
+@adopterId INT,
+@reqDate DATETIME,
+@resDate DATETIME,
+@state BIT
+AS
+INSERT INTO PetAdopter (PetId,
+						AdopterId,
+						RequestDate,
+						ResponseDate,
+						State)
+			VALUES (@petId,
+					@adopterId,
+					@reqDate,
+					@resDate,
+					@state)
+GO
+
+CREATE PROCEDURE usp_PetAdopter_FindAll
+@adopterId INT
+AS
+SELECT PetId,
+	   AdopterId,
+	   RequestDate,
+	   ResponseDate,
+	   State
+FROM PetAdopter
+WHERE AdopterId = @adopterId
+GO
+

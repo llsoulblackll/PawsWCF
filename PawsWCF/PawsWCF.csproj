@@ -77,6 +77,7 @@
     <Content Include="Service\FoundPetService.svc" />
     <Content Include="Service\LostPetService.svc" />
     <Content Include="Service\OwnerService.svc" />
+    <Content Include="Service\PetAdopterService.svc" />
     <Content Include="Service\PetService.svc" />
     <Content Include="Service\RaceService.svc" />
     <Content Include="Service\SpecieService.svc" />
@@ -94,6 +95,7 @@
     <Compile Include="Contract\LostPetContract.cs" />
     <Compile Include="Contract\OwnerContract.cs" />
     <Compile Include="Contract\OwnerDtoContract.cs" />
+    <Compile Include="Contract\PetAdopterContract.cs" />
     <Compile Include="Contract\PetContract.cs" />
     <Compile Include="Contract\PetDtoContract.cs" />
     <Compile Include="Contract\RaceContract.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Service\IFoundPetService.cs" />
     <Compile Include="Service\ILostPetService.cs" />
     <Compile Include="Service\IOwnerService.cs" />
+    <Compile Include="Service\IPetAdopterService.cs" />
     <Compile Include="Service\IPetService.cs" />
     <Compile Include="Service\IRaceService.cs" />
     <Compile Include="Service\ISpecieService.cs" />
@@ -135,6 +138,9 @@
     </Compile>
     <Compile Include="Service\OwnerService.svc.cs">
       <DependentUpon>OwnerService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\PetAdopterService.svc.cs">
+      <DependentUpon>PetAdopterService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\PetService.svc.cs">
       <DependentUpon>PetService.svc</DependentUpon>
