@@ -732,18 +732,22 @@ CREATE PROCEDURE usp_PetAdopter_Insert
 @adopterId INT,
 @reqDate DATETIME,
 @resDate DATETIME,
-@state BIT
+@state BIT,
+@rowCount INT = 0 OUT
 AS
-INSERT INTO PetAdopter (PetId,
-						AdopterId,
-						RequestDate,
-						ResponseDate,
-						State)
-			VALUES (@petId,
-					@adopterId,
-					@reqDate,
-					@resDate,
-					@state)
+BEGIN
+	INSERT INTO Pet_Adopter (PetId,
+							AdopterId,
+							RequestDate,
+							ResponseDate,
+							State)
+				VALUES (@petId,
+						@adopterId,
+						@reqDate,
+						@resDate,
+						@state)
+	SET @rowCount = @@ROWCOUNT
+END
 GO
 
 CREATE PROCEDURE usp_PetAdopter_Update
@@ -751,48 +755,54 @@ CREATE PROCEDURE usp_PetAdopter_Update
 @adopterId INT,
 @reqDate DATETIME,
 @resDate DATETIME,
-@state BIT
+@state BIT,
+@rowCount INT = 0 OUTPUT
 AS
-INSERT INTO PetAdopter (PetId,
-						AdopterId,
-						RequestDate,
-						ResponseDate,
-						State)
-			VALUES (@petId,
-					@adopterId,
-					@reqDate,
-					@resDate,
-					@state)
+BEGIN
+	UPDATE Pet_Adopter SET RequestDate = @reqDate,
+						  ResponseDate = @resDate,
+						  State	= @state
+	WHERE PetId = @petId AND AdopterId = @adopterId
+	SET @rowCount = @@ROWCOUNT
+END
 GO
 
 CREATE PROCEDURE usp_PetAdopter_Find
-@petId INT,
 @adopterId INT,
-@reqDate DATETIME,
-@resDate DATETIME,
-@state BIT
-AS
-INSERT INTO PetAdopter (PetId,
-						AdopterId,
-						RequestDate,
-						ResponseDate,
-						State)
-			VALUES (@petId,
-					@adopterId,
-					@reqDate,
-					@resDate,
-					@state)
-GO
-
-CREATE PROCEDURE usp_PetAdopter_FindAll
-@adopterId INT
+@petId INT
 AS
 SELECT PetId,
 	   AdopterId,
 	   RequestDate,
 	   ResponseDate,
 	   State
-FROM PetAdopter
-WHERE AdopterId = @adopterId
+FROM Pet_Adopter
+WHERE PetId = @petId AND AdopterId = @adopterId
+GO
+
+CREATE PROCEDURE usp_PetAdopter_FindAll
+@adopterId INT,--SHOULD ACTUALLY BE SUBJECT ID OR STH BECAUSE IT CAN GO EITHER WAY OWNER OR ADOPTER (WHO IS ALSO AN OWNER)
+--WETHER THE ONE CALLING THE SP IS AN ADOPTER, TO FILTER IF ITS REQUEST HAS BEEN ANSWERED OR NOT
+@isAdopter BIT,
+@state BIT = 1
+AS
+IF @isAdopter = 1
+	SELECT TOP 13 PetId,
+		   AdopterId,
+		   RequestDate,
+		   ResponseDate,
+		   State
+	FROM Pet_Adopter
+	WHERE AdopterId = @adopterId AND ResponseDate IS NOT NULL-- AND State = @state
+ELSE
+	SELECT PetId,
+		   AdopterId,
+		   RequestDate,
+		   ResponseDate,
+		   PA.State
+	FROM Pet_Adopter PA
+	INNER JOIN Pet P ON PA.PetId = P.Id
+	INNER JOIN Owner O ON P.OwnerId = O.Id
+	WHERE O.Id = @adopterId AND ResponseDate IS NULL--PA.State = @state
 GO
 

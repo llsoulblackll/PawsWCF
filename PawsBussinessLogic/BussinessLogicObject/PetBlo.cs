@@ -177,29 +177,60 @@ namespace PawsBussinessLogic.BussinessLogicObject
             }
         }
 
-        public List<PetDto> FindAllDto(object ownerId)
+        /// <summary>
+        /// Retrieve a List of PetDto objects
+        /// </summary>
+        /// <param name="ownerId">ID of the Owner to fitler by</param>
+        /// <param name="ownPets">Whether to return said owner pets or exclude and return all others</param>
+        /// <returns></returns>
+        public List<PetDto> FindAllDto(object ownerId, bool ownPets)
         {
             try
             {
                 using (var conn = ConnectionFactory.GetOpenConnection())
                 {
-                    return petDao.FindAll(ownerId, conn).Select(p =>
+                    if (ownPets)
                     {
-                        return new PetDto
+                        return petDao.FindAll(ownerId, conn).Select(p =>
                         {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Age = p.Age,
-                            Description = p.Description,
-                            Picture = p.Picture,
-                            PublishDate = p.PublishDate,
-                            State = p.State,
-                            OtherRace = p.OtherRace,
-                            Specie = specieDao.Find(p.SpecieId, conn),
-                            Race = raceDao.Find(p.RaceId, conn),
-                            Owner = ownerDao.Find(p.OwnerId, conn)
-                        };
-                    }).ToList();
+                            return new PetDto
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Age = p.Age,
+                                Description = p.Description,
+                                Picture = p.Picture,
+                                PublishDate = p.PublishDate,
+                                State = p.State,
+                                OtherRace = p.OtherRace,
+                                Specie = specieDao.Find(p.SpecieId, conn),
+                                Race = raceDao.Find(p.RaceId, conn),
+                                Owner = ownerDao.Find(p.OwnerId, conn)
+                            };
+                        }).ToList();
+                    }
+
+                    else
+                    {
+                        //THIS LOGIC SHOULD BE PART OF THE SP BECAUSE WE ARE RETRIEVING RECORDS WE DON'T NEED
+                        return petDao.FindAll(conn).Where(p => p.OwnerId != (int)ownerId).Select(p =>
+                        {
+                            return new PetDto
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Age = p.Age,
+                                Description = p.Description,
+                                Picture = p.Picture,
+                                PublishDate = p.PublishDate,
+                                State = p.State,
+                                OtherRace = p.OtherRace,
+                                Specie = specieDao.Find(p.SpecieId, conn),
+                                Race = raceDao.Find(p.RaceId, conn),
+                                Owner = ownerDao.Find(p.OwnerId, conn)
+                            };
+                        }).ToList();
+                    }
                 }
             }
             catch (DbException ex)

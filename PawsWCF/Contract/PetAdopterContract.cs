@@ -15,7 +15,8 @@ namespace PawsWCF.Contract
         [DataMember(Order = 1)]public int PetId { get; set; }
 	    [DataMember(Order = 2)]public int AdopterId { get; set; }
 	    [DataMember(Order = 3)]public DateTime RequestDate { get; set; }
-        [DataMember(Order = 4)]public DateTime ResponseDate { get; set; }
+        //DATE TIME STRUCT CANNOT BE NULL, REMEMBER THE ?
+        [DataMember(Order = 4, IsRequired = false)]public DateTime ResponseDate { get; set; }
         [DataMember(Order = 5)]public bool State { get; set; }
     }
 }

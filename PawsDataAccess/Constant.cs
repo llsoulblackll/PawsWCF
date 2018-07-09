@@ -98,5 +98,13 @@ namespace PawsDataAccess
             public const string USP_AUTH_DELETE = "usp_Auth_Delete";
             public const string USP_AUTH_FIND = "usp_Auth_Find";
         }
+
+        public static class PetAdopter
+        {
+            public const string USP_PET_ADOPTER_INSERT = "usp_PetAdopter_Insert";
+            public const string USP_PET_ADOPTER_UPDATE = "usp_PetAdopter_Update";
+            public const string USP_PET_ADOPTER_FIND = "usp_PetAdopter_Find";
+            public const string USP_PET_ADOPTER_FINDALL = "usp_PetAdopter_FindAll";
+        }
     }
 }

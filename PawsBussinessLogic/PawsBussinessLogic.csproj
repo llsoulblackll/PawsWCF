@@ -58,6 +58,7 @@
     <Compile Include="BussinessLogicObject\SurveyBlo.cs" />
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />
+    <Compile Include="DataTransferObject\PetAdopterDto.cs" />
     <Compile Include="DataTransferObject\PetDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

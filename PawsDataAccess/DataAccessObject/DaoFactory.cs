@@ -49,7 +49,7 @@ namespace PawsDataAccess.DataAccessObject
         {
             return new AdoptionAdopterDaoImpl();
         }
-        
+
         public static ILostPetDao GetLostPetDao()
         {
             return new LostPetDaoImpl();
@@ -58,6 +58,11 @@ namespace PawsDataAccess.DataAccessObject
         public static IFoundPetDao GetFoundPetDao()
         {
             return new FoundPetDaoImpl();
+        }
+
+        public static IPetAdopterDao GetPetAdopterDao()
+        {
+            return new PetAdopterDaoImpl();
         }
     }
 }

@@ -141,7 +141,7 @@ namespace PawsWCF.Service
             {
                 return new WCFResponse<object>
                 {
-                    Response = response.ToString(),
+                    Response = response,
                     ResponseCode = WCFResponseCode.Success,
                     ResponseMessage = WCFResponseMessage.WCF_SUCCESS
                 };
@@ -150,7 +150,7 @@ namespace PawsWCF.Service
             {
                 return new WCFResponse<object>
                 {
-                    Response = response.ToString(),
+                    Response = response,
                     ResponseCode = WCFResponseCode.Error,
                     ResponseMessage = WCFResponseMessage.WCF_ERROR
                 };
@@ -296,9 +296,9 @@ namespace PawsWCF.Service
             }
         }
 
-        public WCFResponse<List<PetDtoContract>> FindAllDto(string ownerId)
+        public WCFResponse<List<PetDtoContract>> FindAllDto(string ownerId, string ownPets)
         {
-            List<PetDto> pets = petBlo.FindAllDto(int.Parse(ownerId));
+            List<PetDto> pets = petBlo.FindAllDto(int.Parse(ownerId), bool.Parse(ownPets));
             if (pets != null)
             {
                 return new WCFResponse<List<PetDtoContract>>
