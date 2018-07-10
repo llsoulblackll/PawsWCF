@@ -64,5 +64,10 @@ namespace PawsDataAccess.DataAccessObject
         {
             return new PetAdopterDaoImpl();
         }
+
+        public static IAuthDao GetAuthDao()
+        {
+            return new AuthDaoImpl();
+        }
     }
 }

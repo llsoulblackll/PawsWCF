@@ -59,5 +59,7 @@ namespace PawsBussinessLogic.BussinessLogicObject
         }
 
         public static PetAdopterBlo GetPetAdopterBlo() => new PetAdopterBlo();
+
+        public static AuthBlo GetAuthBlo() => new AuthBlo();
     }
 }
