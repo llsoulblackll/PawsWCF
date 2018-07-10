@@ -73,6 +73,7 @@
     <Content Include="Service\AdoptionAdopterService.svc" />
     <Content Include="Service\AdoptionPetService.svc" />
     <Content Include="Service\AdoptionService.svc" />
+    <Content Include="Service\AuthService.svc" />
     <Content Include="Service\DistrictService.svc" />
     <Content Include="Service\FoundPetService.svc" />
     <Content Include="Service\LostPetService.svc" />
@@ -90,6 +91,7 @@
     <Compile Include="Contract\AdoptionAdopterContract.cs" />
     <Compile Include="Contract\AdoptionContract.cs" />
     <Compile Include="Contract\AdoptionPetContract.cs" />
+    <Compile Include="Contract\AuthContract.cs" />
     <Compile Include="Contract\DistrictContract.cs" />
     <Compile Include="Contract\FoundPetContract.cs" />
     <Compile Include="Contract\LostPetContract.cs" />
@@ -115,6 +117,9 @@
     <Compile Include="Service\AdoptionService.svc.cs">
       <DependentUpon>AdoptionService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Service\AuthService.svc.cs">
+      <DependentUpon>AuthService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service\DistrictService.svc.cs">
       <DependentUpon>DistrictService.svc</DependentUpon>
     </Compile>
@@ -124,6 +129,7 @@
     <Compile Include="Service\IAdoptionAdopterService.cs" />
     <Compile Include="Service\IAdoptionPetService.cs" />
     <Compile Include="Service\IAdoptionService.cs" />
+    <Compile Include="Service\IAuthService.cs" />
     <Compile Include="Service\IDistrictService.cs" />
     <Compile Include="Service\IEntityService.cs" />
     <Compile Include="Service\IFoundPetService.cs" />
